@@ -2,6 +2,8 @@ class Game < ActiveRecord::Base
 	validates :name , presence: true
 	has_many :game_histories
 	has_many :users, through: :game_histories
+	has_many :clues
+	has_one :first_clue , class_name: "Clue"
 
 	def start()
 		return false if active?
