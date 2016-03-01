@@ -4,6 +4,8 @@ class Game < ActiveRecord::Base
 	has_many :users, through: :game_histories
 	has_many :clues
 	has_one :first_clue , class_name: "Clue"
+	has_many :clues , dependent: :destroy
+	has_one :first_clue , class_name: "Clue", dependent: :destroy
 
 	def start()
 		return false if active?

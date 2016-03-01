@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
 	before(:each) do
 		@game = Game.new(name: 'Test')
+		@clue = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
 	end
 
 
@@ -42,6 +43,18 @@ RSpec.describe Game, type: :model do
 
 	it "should save a valid game" do
 		expect(@game).to be_valid
+	end
+
+	it "should destroy clues when the game is destroyed" do
+		@game.clues << @clue
+		@game.save
+		expect{@game.destroy}.to change(Clue, :count).by (-1)
+	end
+
+	it "should destroy the first clue when the game is destroyed" do
+		@game.first_clue = @clue
+		@game.save
+		expect{@game.destroy}.to change(Clue, :count).by (-1)
 	end
 
 end
