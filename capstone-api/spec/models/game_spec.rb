@@ -2,18 +2,44 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
 	before(:each) do
-		@game = Game.new(name: 'Test' , duration: 10)
+		@game = Game.new(name: 'Test')
 	end
+
+
 	it "should validate the precence of a name" do
 		@game.name = nil
 		expect(@game).to_not be_valid
 	end
-
-	it "should not save a game without a duration" do
-		@game.duration = nil
-		expect(@game).to_not be_valid
+  
+	it "should be inactive by default" do
+		expect(@game.active?).to be false
 	end
-	
+
+	it "should activate be able to activate games" do
+		@game.start
+		expect(@game).to_not be_a_new(Game)
+		expect(@game.active?).to be true
+		expect(@game.start_time).to  be_truthy
+	end
+
+	it "should not terminate an inactive game" do
+		expect(@game.terminate).to be false
+		expect(@game).to be_a_new(Game)
+	end
+
+	it "should terminate active games" do
+		@game.start
+		expect(@game.terminate).to be true
+		expect(@game.active?).to be false
+		expect(@game.end_time).to be_truthy
+	end
+
+	it "should not allow an active game to be activated" do
+		@game.start
+		expect(@game.start).to be false
+	end
+
+
 	it "should save a valid game" do
 		expect(@game).to be_valid
 	end
