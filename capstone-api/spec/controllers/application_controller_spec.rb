@@ -4,7 +4,7 @@ RSpec.describe ApplicationController, type: :controller do
 	describe "POST #test" do
 		context "when is successfully created" do
 			before(:each) do
-				@user = User.create(email: 'Example@example.com' , password:"12345678")
+				@user = User.create( firstname: 'Example', lastname: 'Doe', email: 'Example@example.com' , password:"12345678")
 			end
 		    it "should find a valid user" do
 		        post :test,{ email: @user.email, password: @user.password}
