@@ -57,4 +57,9 @@ RSpec.describe Game, type: :model do
 		expect{@game.destroy}.to change(Clue, :count).by (-1)
 	end
 
+	it "should have a default radius of 1m" do
+		@game.save
+		expect(@game.radius).to equal 1
+	end
+
 end

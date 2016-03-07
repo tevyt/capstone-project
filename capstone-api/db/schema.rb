@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305160411) do
+ActiveRecord::Schema.define(version: 20160307164004) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20160305160411) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.boolean  "active",     default: false
+    t.integer  "radius",     default: 1
   end
 
   create_table "users", force: :cascade do |t|
