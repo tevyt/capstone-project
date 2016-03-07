@@ -75,5 +75,4 @@ RSpec.describe Game, type: :model do
 		@game.radius = 100_000_000
 		expect(@game).to be_valid
 	end
-
 end
