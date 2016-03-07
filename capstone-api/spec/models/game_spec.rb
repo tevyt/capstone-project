@@ -75,4 +75,11 @@ RSpec.describe Game, type: :model do
 		@game.radius = 100_000_000
 		expect(@game).to be_valid
 	end
+
+	it "should return the distance between 2 points" do
+		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
+		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+		distance = Game.new.send(:meter_distance , tokyo , kingston)
+		expect(distance).to be_within(150).of(12_928_536.276)#Distance in meters? Margin of error too big?  I mean it is kinda far
+	end
 end
