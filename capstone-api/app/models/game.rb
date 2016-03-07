@@ -18,6 +18,15 @@ class Game < ActiveRecord::Base
 		update(end_time: DateTime.now, active: false)
 	end
 
+	def add_clues(options={})
+		Game.transaction do
+			first_clue = options[:first_clue]
+			raise ActiveRecord::Rollback if first_clue and self.first_clue
+			self.first_clue = first_clue if first_clue
+			save!
+		end
+	end
+
 	private 
 	def intersect?(coordinate1 , coordinate2)
 		meter_distance(coordinate1 , coordinate2) <= @radius	

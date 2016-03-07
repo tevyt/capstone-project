@@ -82,4 +82,17 @@ RSpec.describe Game, type: :model do
 		distance = Game.new.send(:meter_distance , tokyo , kingston)
 		expect(distance).to be_within(150).of(12_928_536.276)#Distance in meters? Margin of error too big?  I mean it is kinda far
 	end
+
+	it "should not save a first clue if it already has a first clue" do
+		clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
+		@game.first_clue = clue
+		@game.save
+		next_clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
+		expect{@game.add_clues(first_clue: next_clue)}.not_to change(@game , :first_clue)
+	end
+
+	it "should save the game if it does not have a first clue" do
+		clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
+		expect{@game.add_clues(first_clue: clue)}.to change(@game, :first_clue)
+	end
 end
