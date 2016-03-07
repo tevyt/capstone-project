@@ -62,4 +62,18 @@ RSpec.describe Game, type: :model do
 		expect(@game.radius).to equal 1
 	end
 
+	it "should not allow games with radius beyound possible values" do 
+		@game.radius = 0
+		expect(@game).to_not be_valid
+		@game.radius = 12_742_000_000#Diameter of the earth
+		expect(@game).to_not be_valid
+	end
+
+	it "should allow games with valid radii to be saved" do
+		@game.radius = 100
+		expect(@game).to be_valid
+		@game.radius = 100_000_000
+		expect(@game).to be_valid
+	end
+
 end
