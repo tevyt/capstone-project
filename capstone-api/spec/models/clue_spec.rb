@@ -33,4 +33,14 @@ RSpec.describe Clue, type: :model do
     expect(@clue.game_history).to be_truthy
     expect(@clue.discovered?).to be true
   end
+
+  it "should add a discovery to a GameHistory when a clue is discovered" do
+    user = User.create(email: 'email@email.com' , firstname: 'Travis' , lastname: 'Smith' , password: '123456789')
+    game = Game.create(name: 'Cool Game')
+    @clue.game = game
+    game.users << user
+    @clue.save
+    expect(@clue.discovered?).to be false
+    expect{@clue.discover(user)}.to change{GameHistory.first.clues.size}.by(1)
+  end
 end
