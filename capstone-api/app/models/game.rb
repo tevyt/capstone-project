@@ -17,7 +17,9 @@ class Game < ActiveRecord::Base
     update(end_time: DateTime.now, active: false)
   end
 
-  def add_clues()
+  def add_clue(new_clue)
+    clues.each { |clue| return false if intersect?(new_clue.coordinate , clue.coordinate) }
+    clues << new_clue
   end
 
   private 

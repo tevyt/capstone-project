@@ -84,10 +84,29 @@ RSpec.describe Game, type: :model do
     expect(@game.send(:intersect? , place1 , place2)).to be true
   end
 
-  it "should be able to tell if 3 coordinates are far enough apart" do
+  it "should be able to tell if 2 coordinates are far enough apart" do
     @game.radius = 100
 		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
 		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
     expect(@game.send(:intersect?, tokyo , kingston)).to be false
+  end
+
+  it "should be able to add valid clues that do not intersect" do
+		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
+		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+		clue_1 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
+		clue_2 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
+    clue_1.coordinate = tokyo
+    clue_2.coordinate = kingston
+    @game.add_clue(clue_1)
+    @game.add_clue(clue_2)
+    expect(@game.clues.size).to eq 2
+  end
+
+  it "should not allow for the addition of clues that intersect" do
+    @clue.coordinate = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+    expect(@game.add_clue(@clue)).to be_truthy
+    expect(@game.add_clue(@clue.clone)).to be false
+    expect(@game.clues.size).to eq 1
   end
 end
