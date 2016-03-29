@@ -17,4 +17,8 @@ RSpec.describe Clue, type: :model do
 			expect(invalid_clue).to_not be_valid
 		end
 	end
+
+  it "should have a game history field" do
+    expect{@clue.game_history}.to_not raise_error
+  end
 end

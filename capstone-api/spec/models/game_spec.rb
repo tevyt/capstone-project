@@ -76,4 +76,18 @@ RSpec.describe Game, type: :model do
 		distance = Game.new.send(:meter_distance , tokyo , kingston)
 		expect(distance).to be_within(150).of(12_928_536.276)#Distance in meters? Margin of error too big?  I mean it is kinda far
 	end
+
+  it "should be able to tell if 2 coordinates are too close" do
+    @game.radius = 5
+    place1 = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)
+    place2 = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)
+    expect(@game.send(:intersect? , place1 , place2)).to be true
+  end
+
+  it "should be able to tell if 3 coordinates are far enough apart" do
+    @game.radius = 100
+		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
+		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+    expect(@game.send(:intersect?, tokyo , kingston)).to be false
+  end
 end

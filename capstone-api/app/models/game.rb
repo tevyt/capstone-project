@@ -22,7 +22,7 @@ class Game < ActiveRecord::Base
 
   private 
   def intersect?(coordinate1 , coordinate2)
-    meter_distance(coordinate1 , coordinate2) <=  2 * @radius	
+    meter_distance(coordinate1 , coordinate2) <=  2 * radius
   end
 
 end
