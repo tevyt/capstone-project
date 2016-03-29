@@ -51,18 +51,12 @@ RSpec.describe Game, type: :model do
 		expect{@game.destroy}.to change(Clue, :count).by (-1)
 	end
 
-	it "should destroy the first clue when the game is destroyed" do
-		@game.first_clue = @clue
-		@game.save
-		expect{@game.destroy}.to change(Clue, :count).by (-1)
-	end
-
 	it "should have a default radius of 1m" do
 		@game.save
 		expect(@game.radius).to equal 1
 	end
 
-	it "should not allow games with radius beyound possible values" do 
+	it "should not allow games with radius beyond possible values" do 
 		@game.radius = 0
 		expect(@game).to_not be_valid
 		@game.radius = 12_742_000_000#Diameter of the earth
@@ -81,18 +75,5 @@ RSpec.describe Game, type: :model do
 		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
 		distance = Game.new.send(:meter_distance , tokyo , kingston)
 		expect(distance).to be_within(150).of(12_928_536.276)#Distance in meters? Margin of error too big?  I mean it is kinda far
-	end
-
-	it "should not save a first clue if it already has a first clue" do
-		clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
-		@game.first_clue = clue
-		@game.save
-		next_clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
-		expect{@game.add_clues(first_clue: next_clue)}.not_to change(@game , :first_clue)
-	end
-
-	it "should save the game if it does not have a first clue" do
-		clue = Clue.new(question: 'Test' , answer: 'Test Answer' , hint: 'Test')
-		expect{@game.add_clues(first_clue: clue)}.to change(@game, :first_clue)
 	end
 end

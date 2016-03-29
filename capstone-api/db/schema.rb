@@ -11,21 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329150938) do
+ActiveRecord::Schema.define(version: 20160329152307) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
     t.text     "question"
     t.text     "answer"
     t.integer  "game_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "previous_clue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean  "discovered"
   end
 
   add_index "clues", ["game_id"], name: "index_clues_on_game_id"
-  add_index "clues", ["previous_clue_id"], name: "index_clues_on_previous_clue_id"
 
   create_table "coordinates", force: :cascade do |t|
     t.float    "longitude"
