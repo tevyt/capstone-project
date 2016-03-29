@@ -23,13 +23,20 @@ class Game < ActiveRecord::Base
       first_clue = options[:first_clue]
       raise ActiveRecord::Rollback if first_clue and self.first_clue
       self.first_clue = first_clue if first_clue
+      new_clues = options[:clues]
+      new_clues.each do |new_clue|
+        clues.each do |clue|
+          raise ActiveRecord::Rollback if intersect?(clue.coordinate , new_clue.coordinate)
+        end
+        clues << new_clue
       save!
+      end
     end
   end
 
   private 
   def intersect?(coordinate1 , coordinate2)
-    meter_distance(coordinate1 , coordinate2) <= @radius	
+    meter_distance(coordinate1 , coordinate2) <=  2 * @radius	
   end
 
   #Given 2 coordinates get the distance in meters between them uses Haversine Formula
