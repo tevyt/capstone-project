@@ -17,24 +17,24 @@ RSpec.describe UsersController, type: :controller do
   describe 'GET show' do
     it 'assigns @user' do
       @user.save
-      get :show , id: @user.id 
+      get :show , id: @user.id
       expect(assigns :user).to eq(@user)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'should retrun a 404 for non-existent users' do
+    it 'should return a 404 for non-existent users' do
       get :show, id: 1
       expect(response).to have_http_status(:not_found)
     end
   end
 
-  describe 'POST create' do 
+  describe 'POST create' do
     it 'should create a user' do
       post :create , user: @user_params
       expect(User.count).to eq(1)
       expect(response).to have_http_status(:created)
     end
-    
+
     it 'should return a bad request for invalid params' do
       post :create , user: {email: "This ain't valid"}
       expect(response).to have_http_status(:bad_request)
