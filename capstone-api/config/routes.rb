@@ -56,4 +56,5 @@ Rails.application.routes.draw do
   #   end
   resources :users , only: [:create, :update, :destroy, :show, :index]
   resources :clues , only: [:create, :update, :destroy, :show, :index]
+  resources :games , only: [:create, :update, :destroy, :show, :index]
 end
