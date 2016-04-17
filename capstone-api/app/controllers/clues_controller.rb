@@ -1,43 +1,50 @@
 class CluesController < ApplicationController
-    before_action :set_clue , only: [:show , :update, :destroy]
-    def index
-      @clues = Clue.all
-      render json: @clues
-    end
+  before_action :set_clue , only: [:show , :update, :destroy]
+  before_action :set_game , only: [:index, :create] 
 
-    def show
-      render json: @clue
-    end
+  def index
+    @clues = @game.clues
+    render json: @clues
+  end
 
-    def create
-      @clue = Clue.new(clue_params)
-      if @clue.save
-        render json: @clue, status: :created
-      else
-        error_message(:bad_request , @clue.errors)
-      end
-    end
+  def show
+    render json: @clue
+  end
 
-    def update
-      if @clue.update(clue_params)
-        render json: @clue, status: :ok
-      else
-        error_message(:bad_request , @clue.errors)
-      end
+  def create
+    @clue = Clue.new(clue_params)
+    if @game.clues << @clue
+      render json: @clue, status: :created
+    else
+      error_message(:bad_request , @clue.errors)
     end
+  end
 
-    def destroy
-      @clue.destroy
-      head :no_content
+  def update
+    if @clue.update(clue_params)
+      render json: @clue, status: :ok
+    else
+      error_message(:bad_request , @clue.errors)
     end
+  end
 
-    protected
-    def set_clue
-      @clue = Clue.where(id:params[:id]).take
-      error_message(:not_found) unless @clue
-    end
+  def destroy
+    @clue.destroy
+    head :no_content
+  end
 
-    def clue_params
-      params.require(:clue).permit(:hint , :question , :answer)
-    end
+  protected
+  def set_clue
+    @clue = Clue.where(game_id: params[:game_id], id: params[:id]).take
+    error_message(:not_found) unless @clue
+  end
+
+  def set_game
+    @game = Game.where(params[:game_id]).take
+    error_message(:not_found) unless @game
+  end
+
+  def clue_params
+    params.require(:clue).permit(:hint , :question , :answer)
+  end
 end
