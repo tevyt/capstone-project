@@ -8,13 +8,8 @@ class Game < ActiveRecord::Base
   has_many :clues , dependent: :destroy
   belongs_to :user
   alias_attribute :creator, :user
-  validate :start_date_must_be_in_the_future
-
-
-  def start()
-    return false if active?
-    update(active: true)
-  end
+  validate :start_date_must_be_in_the_future, on: :create
+  after_create :start
 
   def terminate()
     return false unless active?
@@ -34,6 +29,10 @@ class Game < ActiveRecord::Base
   protected
   def start_date_must_be_in_the_future
     errors.add(:start_time, 'Start Time must be in the future') if start_time.present? and start_time < DateTime.now
+  end
+
+  def start
+    GameStartWorker.perform_at(start_time, id)
   end
 
 end

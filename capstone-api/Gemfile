@@ -16,6 +16,8 @@ gem 'sqlite3'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
+gem 'sidekiq'
+
 
 
 # To use ActiveModel has_secure_password
