@@ -3,18 +3,13 @@ class Game < ActiveRecord::Base
   validates :name , presence: true
   validates :radius , numericality: {greater_than: 0 , less_than: 6_371_000_000} #Radius can't be bigger than the radius of the earth!
   validates :start_time, presence: true
-  validate :start_time_cannot_be_in_the_past
   has_many :game_histories
   has_many :users, through: :game_histories
   has_many :clues , dependent: :destroy
   belongs_to :user
   alias_attribute :creator, :user
-
-
-  def start
-    return false if active?
-    update(active: true)
-  end
+  validate :start_date_must_be_in_the_future, on: :create
+  after_create :start
 
   def terminate
     return false unless active?
@@ -32,11 +27,12 @@ class Game < ActiveRecord::Base
   end
 
   protected
-  def start_time_cannot_be_in_the_past
-    errors.add(:start_time, 'Start time cannot be in the past') if start_time.present? and start_time < DateTime.now
+  def start_date_must_be_in_the_future
+    errors.add(:start_time, 'Start Time must be in the future') if start_time.present? and start_time < DateTime.now
   end
-  
 
-
+  def start
+    GameStartWorker.perform_at(start_time, id)
+  end
 end
 
