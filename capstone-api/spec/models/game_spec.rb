@@ -109,4 +109,9 @@ RSpec.describe Game, type: :model do
     expect(@game.add_clue(@clue.clone)).to be false
     expect(@game.clues.size).to eq 1
   end
+
+  it "should not allow a start date in the past" do
+    @game.start_time = 3.days.ago
+    expect(@game).to_not be_valid
+  end
 end

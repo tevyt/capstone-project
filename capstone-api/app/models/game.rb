@@ -8,6 +8,7 @@ class Game < ActiveRecord::Base
   has_many :clues , dependent: :destroy
   belongs_to :user
   alias_attribute :creator, :user
+  validate :start_date_must_be_in_the_future
 
 
   def start()
@@ -28,6 +29,11 @@ class Game < ActiveRecord::Base
   private 
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius
+  end
+
+  protected
+  def start_date_must_be_in_the_future
+    errors.add(:start_time, 'Start Time must be in the future') if start_time.present? and start_time < DateTime.now
   end
 
 end
