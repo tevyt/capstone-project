@@ -109,4 +109,9 @@ RSpec.describe Game, type: :model do
     expect(@game.add_clue(@clue.clone)).to be false
     expect(@game.clues.size).to eq 1
   end
+
+  it "should reject a game with a start time in the past" do
+    @game.start_time = 3.minutes.ago
+    expect(@game).to_not be_valid
+  end
 end

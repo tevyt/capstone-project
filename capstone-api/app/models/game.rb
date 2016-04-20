@@ -3,6 +3,7 @@ class Game < ActiveRecord::Base
   validates :name , presence: true
   validates :radius , numericality: {greater_than: 0 , less_than: 6_371_000_000} #Radius can't be bigger than the radius of the earth!
   validates :start_time, presence: true
+  validate :start_time_cannot_be_in_the_past
   has_many :game_histories
   has_many :users, through: :game_histories
   has_many :clues , dependent: :destroy
@@ -10,12 +11,12 @@ class Game < ActiveRecord::Base
   alias_attribute :creator, :user
 
 
-  def start()
+  def start
     return false if active?
     update(active: true)
   end
 
-  def terminate()
+  def terminate
     return false unless active?
     update(end_time: DateTime.now, active: false)
   end
@@ -29,6 +30,13 @@ class Game < ActiveRecord::Base
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius
   end
+
+  protected
+  def start_time_cannot_be_in_the_past
+    errors.add(:start_time, 'Start time cannot be in the past') if start_time.present? and start_time < DateTime.now
+  end
+  
+
 
 end
 
