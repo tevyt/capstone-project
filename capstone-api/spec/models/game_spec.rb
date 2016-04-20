@@ -16,30 +16,10 @@ RSpec.describe Game, type: :model do
 		expect(@game.active?).to be false
 	end
 
-	it "should activate be able to activate games" do
-		@game.start
-		expect(@game).to_not be_a_new(Game)
-		expect(@game.active?).to be true
-		expect(@game.start_time).to  be_truthy
-	end
-
 	it "should not terminate an inactive game" do
 		expect(@game.terminate).to be false
 		expect(@game).to be_a_new(Game)
 	end
-
-	it "should terminate active games" do
-		@game.start
-		expect(@game.terminate).to be true
-		expect(@game.active?).to be false
-		expect(@game.end_time).to be_truthy
-	end
-
-	it "should not allow an active game to be activated" do
-		@game.start
-		expect(@game.start).to be false
-	end
-
 
 	it "should save a valid game" do
 		expect(@game).to be_valid
