@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :game_histories
   has_many :games, through: :game_histories
+  has_many :games
   before_save {self.email = email.downcase }
   validates :email , presence: true,
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },

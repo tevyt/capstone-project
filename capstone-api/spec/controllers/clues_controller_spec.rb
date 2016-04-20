@@ -4,7 +4,7 @@ RSpec.describe CluesController, type: :controller do
     before(:each) do
       @clue_params= {hint: 'Test', question: 'Test', answer: 'Test'}
       @clue = Clue.new(@clue_params)
-      @game = Game.create(name: 'Test')
+      @game = Game.create(name: 'Test', start_time: 3.minutes.from_now)
     end
 
     describe 'GET index' do

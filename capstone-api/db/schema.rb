@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329160513) do
+ActiveRecord::Schema.define(version: 20160417033803) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(version: 20160329160513) do
     t.datetime "end_time"
     t.boolean  "active",     default: false
     t.integer  "radius",     default: 1
+    t.integer  "user_id"
   end
+
+  add_index "games", ["user_id"], name: "index_games_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

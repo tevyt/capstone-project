@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
   before(:each) do
-    @game_params = {name: 'Test Game' , radius: 1}
+    @game_params = {name: 'Test Game' , radius: 1, start_time: 3.minutes.from_now}
     @game = Game.new(@game_params)
   end
 

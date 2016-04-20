@@ -35,7 +35,7 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:name, :radius)
+    params.require(:game).permit(:name, :radius, :start_time)
   end
 
 end

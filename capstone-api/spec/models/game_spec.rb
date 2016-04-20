@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
 	before(:each) do
-		@game = Game.new(name: 'Test')
+    @game = Game.new(name: 'Test', start_time: 3.minutes.from_now)
 		@clue = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
 	end
 
