@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :update, :destroy]
+  before_action :authenticate, only: [:create, :update, :destroy]
 
   def index 
     @games = Game.all
@@ -12,7 +13,8 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    if @game.save
+    @game.creator = @current_user
+    if @game.save 
       render json: @game, status: :created
     else
       error_message(:bad_request, @game.errors)
@@ -26,7 +28,6 @@ class GamesController < ApplicationController
       error_message(:bad_request, @game.errors)
     end
   end
-
 
   protected
   def set_game
