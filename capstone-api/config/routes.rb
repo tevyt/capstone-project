@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   
-  match "/test", to: "application#test", via: "post"
+  match "/test", to: "application#test", via: "get"
 
   resources :users , only: [:create, :update, :destroy, :show, :index]
   resources :games , only: [:create, :update, :destroy, :show, :index] do

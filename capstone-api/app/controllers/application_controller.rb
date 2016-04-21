@@ -1,13 +1,20 @@
 class ApplicationController <ActionController::API
-  before_action :check_user_exists, only: [:test]
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :authenticate, only: [:test]
 
   def test
     return :ok
   end
 
   protected
-  def check_user_exists
-    @currentUser = User.where(email: params[:email], password: params[:password]).take
+  def authenticate
+    authenticate_token || error_message(:unauthorized)
+  end
+
+  def authenticate_token
+    authenticate_with_http_token do |token, options| 
+      User.find_by(auth_token: token)
+    end
   end
 
   def error_message(status_code, errors=[])
@@ -16,6 +23,9 @@ class ApplicationController <ActionController::API
               {'error' => 'Resource not found'}.to_json 
             when :bad_request
               errors.to_json
+            when :unauthorized
+              self.headers['WWW-Authenticate'] = 'Token realm="Application"'
+              'Bad Credentials'
             end
     render json: error, status: status_code
   end

@@ -1,25 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-	describe "POST #test" do
-		context "when is successfully created" do
-			before(:each) do
-				@user = User.create( firstname: 'Example', lastname: 'Doe', email: 'Example@example.com' , password:"12345678")
-			end
-		    it "should find a valid user" do
-		        post :test,{ email: @user.email, password: @user.password}
-		        expect(assigns(:currentUser)).to eq @user
-		    end
+  describe "GET #test" do
 
-		    it "should not find a user that does not exist" do
-		        post :test, {email: "not email" , password: "not password"}
-		        expect(assigns(:currentUser)).to be_nil
-		    end
+    it "should return ok when a valid token is passed" do
+      @user = User.create(firstname: 'Example', lastname: 'Doe', email: 'example@example.com', password:"12345678")
+      request.headers['Authorization'] = "Token token=#{@user.auth_token}"  
+      get :test
+      expect(response).to have_http_status(:ok)
+    end
 
-			it "should not find a user that user has incorrect password" do
-				post :test, {email: @user.email , password: "not password"}
-		        expect(assigns(:currentUser)).to be_nil
-			end
-		end
-	end
+    it "should return 401 when an invalid token is passed" do
+      request.headers['Authorization'] = "Token token=NOT_A_VALID_TOKEN"
+      get :test
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.body).to eq('Bad Credentials')
+    end
+
+    it "should return 401 if Authorization header is ommited" do
+      get :test
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.body).to eq('Bad Credentials')
+    end
+  end
 end

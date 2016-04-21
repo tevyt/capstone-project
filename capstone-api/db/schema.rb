@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417033803) do
+ActiveRecord::Schema.define(version: 20160421182854) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20160417033803) do
     t.string   "password"
     t.string   "firstname"
     t.string   "lastname"
+    t.string   "auth_token"
   end
 
 end

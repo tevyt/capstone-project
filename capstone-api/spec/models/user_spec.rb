@@ -44,4 +44,9 @@ RSpec.describe User, type: :model do
     expect(@user).to_not be_valid
   end
 
+  it "should have an auth_token upon creation" do
+    @user.save
+    expect(@user.auth_token).to be_truthy
+  end
+
 end
