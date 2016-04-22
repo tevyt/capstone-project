@@ -70,4 +70,32 @@ RSpec.describe GamesController, type: :controller do
     end
   end
 
+  describe 'PATCH join' do
+    it 'should allow a user to join a game' do
+      @game.save
+      patch :join, id: @game.id
+      expect(response).to have_http_status(:ok)
+      expect(response_body['message']).to eq('You have been added to this game')
+      expect(@game.reload.users.size).to eq(1)
+    end
+
+    it 'should not add a user to a game twice' do
+      @game.save
+      @game.users << @user
+      patch :join, id: @game.id
+      expect(response).to have_http_status(:ok)
+      expect(@game.users.size).to eq(1)
+    end
+
+    it 'should allow a second user to be added' do
+      @game.save
+      @game.users << @user
+      second_user = User.create(firstname: 'Second', lastname: 'User', email: 'second@user.com', password: 'password1234')
+      request.headers['Authorization'] = "Token token=#{second_user.auth_token}"
+      patch :join, id: @game.id
+      expect(response).to have_http_status(:ok)
+      expect(@game.users.size).to eq(2)
+    end
+  end
+
 end

@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   end
 
   match "/login", to: "users#login", via: "post"
+  match "/games/:id/join", to: "games#join", via: "patch"
 end
