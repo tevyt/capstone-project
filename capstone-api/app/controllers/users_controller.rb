@@ -2,11 +2,11 @@ class UsersController < ApplicationController
   before_action :set_user , only: [:show , :update, :destroy]
   def index
     @users = User.all
-    render json: @users
+    render json: @users.to_json(except: :auth_token)
   end
 
   def show
-    render json: @user 
+    render json: @user.to_json(except: :auth_token)
   end
 
   def create
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user , status: :created
     else
-      error_message(:bad_request , @user.errors)
+      error_message(:bad_request, @user.errors)
     end
   end
 
@@ -30,6 +30,15 @@ class UsersController < ApplicationController
     @user.destroy
     head :no_content
   end 
+
+  def login
+    @user = User.where(email: params[:email], password: params[:password]).first
+    if @user
+      render json: @user, status: :ok
+    else
+      error_message(:bad_request, error: 'Invalid Login Credentials')
+    end
+  end
     
   protected
   def set_user

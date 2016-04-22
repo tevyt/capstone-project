@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   resources :games , only: [:create, :update, :destroy, :show, :index] do
     resources :clues , only: [:create, :update, :destroy, :show, :index]
   end
+
+  match "/login", to: "users#login", via: "post"
 end

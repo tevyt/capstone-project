@@ -49,6 +49,7 @@ RSpec.describe GamesController, type: :controller do
 
   describe 'PATCH update' do
     it 'should update a game' do
+      @game.creator = @user
       @game.save
       patch :update, id: @game.id, game: {radius: 20}
       @game.reload
@@ -57,6 +58,7 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it 'should return bad request if params are invalid' do
+      @game.creator = @user
       @game.save
       patch :update, id: @game.id, game: {name: ''}
       expect(response).to have_http_status(:bad_request)
@@ -68,7 +70,4 @@ RSpec.describe GamesController, type: :controller do
     end
   end
 
-  def response_body
-    JSON.parse(response.body)
-  end
 end

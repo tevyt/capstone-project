@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   validates :lastname, presence: true
 
   protected
-
   def downcase_email
     self.email.downcase!
   end

@@ -70,4 +70,20 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'POST login' do
+    it 'should allow an existing user to login' do
+      @user.save
+      post :login, email: @user.email, password: @user.password
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'should not allow a user with invalid credentials to login' do
+      @user.save
+      post :login, email: @user.email, password: 'THIS COULD BE THE PASSWORD'
+      expect(response).to have_http_status(:bad_request)
+      errors = response_body['errors']
+      expect(errors['error']).to eq('Invalid Login Credentials')
+    end
+  end
+
 end

@@ -22,12 +22,16 @@ class ApplicationController <ActionController::API
             when :not_found
               {'error' => 'Resource not found'}.to_json 
             when :bad_request
-              errors.to_json
+              errors
             when :unauthorized
               self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-              'Bad Credentials'
+              {error: 'Bad Credentials'}
             end
-    render json: error, status: status_code
+    render json: {errors: error}, status: status_code
+  end
+
+  def authorized?(user)
+    @current_user == user 
   end
 
 end

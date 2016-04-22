@@ -21,6 +21,14 @@ class Game < ActiveRecord::Base
     clues << new_clue
   end
 
+  def to_json(options)
+    if options
+      super(options)
+    else
+      super(except: :auth_token)
+    end
+  end 
+
   private 
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius

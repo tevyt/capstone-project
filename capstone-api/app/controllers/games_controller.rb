@@ -22,6 +22,7 @@ class GamesController < ApplicationController
   end
 
   def update
+    return error_message(:unauthorized) unless authorized?(@game.creator)
     if @game.update(game_params)
       render json: @game
     else
