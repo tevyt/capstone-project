@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :join]
-  before_action :authenticate, only: [:create, :update, :destroy, :join]
+  before_action :set_game, only: [:show, :update, :destroy, :join, :quit]
+  before_action :authenticate, only: [:create, :update, :destroy, :join, :quit]
 
   def index 
     @games = Game.all
@@ -33,6 +33,11 @@ class GamesController < ApplicationController
   def join
     @game.users << @current_user unless @game.users.include?(@current_user) 
     render json: {message: 'You have been added to this game'}
+  end
+
+  def quit
+    @game.users.delete @current_user
+    render json: {message: 'You have quit this game'}
   end
 
   protected

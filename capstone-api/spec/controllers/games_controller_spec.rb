@@ -98,4 +98,14 @@ RSpec.describe GamesController, type: :controller do
     end
   end
 
+  describe "DELETE quit" do
+    it "should allow a user to quit a game" do
+      @game.save
+      @game.users << @user
+      delete :quit, id: @game
+      expect(response).to have_http_status(:ok)
+      expect(@game.users.size).to eq(0)
+    end
+  end
+
 end
