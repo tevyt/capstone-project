@@ -28,19 +28,20 @@ RSpec.describe Clue, type: :model do
     @clue.game = game
     game.users << user
     @clue.save
-    expect(@clue.discovered?).to be false
+    expect(@clue).to_not be_discovered 
     @clue.discover(user)
     expect(@clue.game_history).to be_truthy
-    expect(@clue.discovered?).to be true
+    expect(@clue).to be_discovered
   end
 
   it "should add a discovery to a GameHistory when a clue is discovered" do
     user = User.create(email: 'email@email.com' , firstname: 'Travis' , lastname: 'Smith' , password: '123456789')
     game = Game.create(name: 'Cool Game', start_time: 3.minutes.from_now)
     @clue.game = game
-    game.users << user
+    game.players << user
     @clue.save
-    expect(@clue.discovered?).to be false
     expect{@clue.discover(user)}.to change{GameHistory.first.clues.size}.by(1)
+    @clue.discover(user)
+    expect(@clue).to be_discovered
   end
 end

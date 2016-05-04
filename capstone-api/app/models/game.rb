@@ -10,6 +10,7 @@ class Game < ActiveRecord::Base
   alias_attribute :creator, :user
   validate :start_date_must_be_in_the_future, on: :create
   after_create :start
+  alias_method :players, :users
 
   def terminate
     return false unless active?
@@ -30,17 +31,17 @@ class Game < ActiveRecord::Base
   end 
 
   private 
-  def intersect?(coordinate1 , coordinate2)
-    meter_distance(coordinate1 , coordinate2) <=  2 * radius
-  end
+    def intersect?(coordinate1 , coordinate2)
+      meter_distance(coordinate1 , coordinate2) <=  2 * radius
+    end
 
   protected
-  def start_date_must_be_in_the_future
-    errors.add(:start_time, 'Start Time must be in the future') if start_time.present? and start_time < DateTime.now
-  end
+    def start_date_must_be_in_the_future
+      errors.add(:start_time, 'Start Time must be in the future') if start_time.present? and start_time < DateTime.now
+    end
 
-  def start
-    GameStartWorker.perform_at(start_time, id)
+    def start
+      GameStartWorker.perform_at(start_time, id)
+    end
   end
-end
 

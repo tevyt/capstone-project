@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :join, :quit]
-  before_action :authenticate, only: [:create, :update, :destroy, :join, :quit]
+  before_action :set_game, only: [:show, :update, :destroy, :join, :quit, :discover]
+  before_action :authenticate, only: [:create, :update, :destroy, :join, :quit, :discover]
 
   def index 
     @games = Game.all
@@ -38,6 +38,13 @@ class GamesController < ApplicationController
   def quit
     @game.users.delete @current_user
     render json: {message: 'You have quit this game'}
+  end
+
+  def discover
+    @clue = Clue.find(params[:clue_id])
+    render json: {errors: {error: 'You have not joined that game'}}, status: :unauthorized unless @game.players.include?(@current_user)
+    render json: {errors: {error: 'This clue has already been discovered'}}, status: :bad_request if @clue.discovered?
+    @clue.discover(@current_user)
   end
 
   protected

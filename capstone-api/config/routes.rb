@@ -11,5 +11,10 @@ Rails.application.routes.draw do
 
   match "/login", to: "users#login", via: "post"
   match "/games/:id/join", to: "games#join", via: "patch"
+  put '/games/:id/join', to: 'games#join'
+
   match "/games/:id/quit", to: "games#quit", via: "delete"
+
+  match "/games/:id/clues/:clue_id/discover", to: "games#discover", via: "patch"
+  put '/games/:id/clues/:clue_id/discover', to: 'games#discover'
 end
