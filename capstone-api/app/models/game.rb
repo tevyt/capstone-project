@@ -10,6 +10,7 @@ class Game < ActiveRecord::Base
   alias_attribute :creator, :user
   validate :start_date_must_be_in_the_future, on: :create
   after_create :start
+  alias_method :players, :users
 
   def terminate
     return false unless active?

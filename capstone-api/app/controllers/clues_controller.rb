@@ -33,18 +33,19 @@ class CluesController < ApplicationController
     head :no_content
   end
 
+
   protected
-  def set_clue
-    @clue = Clue.where(game_id: params[:game_id], id: params[:id]).take
-    error_message(:not_found) unless @clue
-  end
+    def set_clue
+      @clue = Clue.where(game_id: params[:game_id], id: params[:id]).take
+      error_message(:not_found) unless @clue
+    end
 
-  def set_game
-    @game = Game.where(params[:game_id]).take
-    error_message(:not_found) unless @game
-  end
+    def set_game
+      @game = Game.where(params[:game_id]).take
+      error_message(:not_found) unless @game
+    end
 
-  def clue_params
-    params.require(:clue).permit(:hint , :question , :answer)
-  end
+    def clue_params
+      params.require(:clue).permit(:hint , :question , :answer)
+    end
 end
