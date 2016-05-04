@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
   has_many :game_histories
   has_many :games, through: :game_histories
   has_many :games
-  before_save :downcase_email, :set_auth_token 
+  has_many :tokens
+  before_save :downcase_email, :set_auth_token
   validates :email , presence: true,
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
     uniqueness: {case_sensitive: false}

@@ -11,7 +11,7 @@ RSpec.describe Game, type: :model do
 		@game.name = nil
 		expect(@game).to_not be_valid
 	end
-  
+
 	it "should be inactive by default" do
 		expect(@game.active?).to be false
 	end
@@ -36,7 +36,7 @@ RSpec.describe Game, type: :model do
 		expect(@game.radius).to equal 1
 	end
 
-	it "should not allow games with radius beyond possible values" do 
+	it "should not allow games with radius beyond possible values" do
 		@game.radius = 0
 		expect(@game).to_not be_valid
 		@game.radius = 12_742_000_000#Diameter of the earth

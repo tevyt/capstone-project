@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user , only: [:show , :update, :destroy]
+  before_action :authenticate, only: [:register_token]
   def index
     @users = User.all
     render json: @users.to_json(except: :auth_token)
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     head :no_content
-  end 
+  end
 
   def login
     @user = User.where(email: params[:email], password: params[:password]).first
@@ -39,7 +40,18 @@ class UsersController < ApplicationController
       error_message(:bad_request, error: 'Invalid Login Credentials')
     end
   end
-    
+
+  def register_token
+    token = Token.new(token: params[:token])
+    @current_user.tokens << token
+    if token.persisted?
+      message = "New Device added"
+      GcmWorker.perform_async(message: message, tokens: token)
+    else
+      error_message(:bad_request)
+    end
+  end
+
   protected
   def set_user
     @user = User.where(id:params[:id]).take

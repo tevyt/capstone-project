@@ -11,16 +11,10 @@ class ApplicationController <ActionController::API
     authenticate_token || error_message(:unauthorized)
   end
 
-  def authenticate_token
-    authenticate_with_http_token do |token, options|
-      @current_user = User.find_by(auth_token: token)
-    end
-  end
-
   def error_message(status_code, errors=[])
     error = case status_code
             when :not_found
-              {'error' => 'Resource not found'}.to_json 
+              {'error' => 'Resource not found'}.to_json
             when :bad_request
               errors
             when :unauthorized
@@ -31,7 +25,14 @@ class ApplicationController <ActionController::API
   end
 
   def authorized?(user)
-    @current_user == user 
+    @current_user == user
+  end
+  
+  private
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
+      @current_user = User.find_by(auth_token: token)
+    end
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421182854) do
+ActiveRecord::Schema.define(version: 20160425171912) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 20160421182854) do
   end
 
   add_index "games", ["user_id"], name: "index_games_on_user_id"
+
+  create_table "tokens", force: :cascade do |t|
+    t.text     "token"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

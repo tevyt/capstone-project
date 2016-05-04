@@ -86,4 +86,12 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'POST register_token' do
+    it 'should register token' do
+      @user.save
+      request.headers['Authorization'] = "Token token=#{@user.auth_token}"
+      post :register_token, token: 'token'
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

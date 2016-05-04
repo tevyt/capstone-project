@@ -27,9 +27,9 @@ class Game < ActiveRecord::Base
     else
       super(except: :auth_token)
     end
-  end 
+  end
 
-  private 
+  private
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius
   end
@@ -43,4 +43,3 @@ class Game < ActiveRecord::Base
     GameStartWorker.perform_at(start_time, id)
   end
 end
-

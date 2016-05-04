@@ -38,12 +38,19 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.3)
     builder (3.2.2)
+    certified (1.0.0)
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    gcm (0.1.1)
+      httparty
+      json
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.3)
     loofah (2.0.3)
@@ -53,6 +60,7 @@ GEM
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    multi_xml (0.5.5)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogiri (1.6.7.2-x86-mingw32)
@@ -132,6 +140,8 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  certified
+  gcm
   rails (= 4.2.4)
   rails-api
   rspec-rails (~> 3.0)
@@ -139,6 +149,3 @@ DEPENDENCIES
   spring
   sqlite3
   tzinfo-data
-
-BUNDLED WITH
-   1.10.6
