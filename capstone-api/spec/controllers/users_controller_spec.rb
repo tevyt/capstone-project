@@ -44,7 +44,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'PATCH update' do
     it 'should update a user' do
       @user.save
-      patch :update , id: @user.id ,user: {firstname: 'New'}
+      patch :update , id: @user.id, user: {firstname: 'New'}
       @user.reload
       expect(@user.firstname).to eq('New')
       expect(response).to have_http_status(:ok)

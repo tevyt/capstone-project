@@ -33,8 +33,8 @@ class UsersController < ApplicationController
   end
 
   def login
-    @user = User.where(email: params[:email], password: params[:password]).first
-    if @user
+    @user = User.find_by(email: params[:email])
+    if @user and @user.authenticate(params[:password])
       render json: @user, status: :ok
     else
       error_message(:bad_request, error: 'Invalid Login Credentials')

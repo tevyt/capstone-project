@@ -8,9 +8,11 @@ class User < ActiveRecord::Base
   validates :email , presence: true,
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
     uniqueness: {case_sensitive: false}
-  validates :password ,presence: true, length: {minimum:8}
+  validates :password ,presence: true, length: {minimum:8}, on: :create
   validates :firstname, presence: true
   validates :lastname, presence: true
+  has_secure_password
+
 
   protected
   def downcase_email
