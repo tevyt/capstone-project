@@ -7,6 +7,8 @@ RSpec.describe CluesController, type: :controller do
       @creator = User.create(firstname: 'Creator', lastname: 'Ofgame', email: 'creator@game.com', password: 'password123')
       @game = Game.create(name: 'Test', start_time: 3.minutes.from_now)
       @game.creator = @creator
+      @game.save
+      request.headers['Authorization'] = "Token token=#{@creator.auth_token}"
     end
 
     describe 'GET index' do
@@ -34,8 +36,8 @@ RSpec.describe CluesController, type: :controller do
     describe "POST create" do
       it "should create clue" do
         post :create, game_id: @game.id, clue: @clue_params
-        expect(Clue.count).to eq(1)
         expect(response).to have_http_status(:created)
+        expect(Clue.count).to eq(1)
       end
       it "should not create clue" do
         post :create, game_id: @game.id, clue: {question: nil}

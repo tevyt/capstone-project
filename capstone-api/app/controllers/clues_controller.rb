@@ -1,6 +1,7 @@
 class CluesController < ApplicationController
   before_action :set_clue , only: [:show , :update, :destroy]
-  before_action :set_game , only: [:index, :create] 
+  before_action :set_game
+  before_action :authenticate, only: [:create, :update, :destroy]
 
   def index
     @clues = @game.clues
@@ -12,6 +13,7 @@ class CluesController < ApplicationController
   end
 
   def create
+    return error_message(:unauthorized) unless authorized?(@game.creator)
     @clue = Clue.new(clue_params)
     if @game.clues << @clue
       render json: @clue, status: :created
@@ -21,6 +23,7 @@ class CluesController < ApplicationController
   end
 
   def update
+    return error_message(:unauthorized) unless authorized?(@game.creator)
     if @clue.update(clue_params)
       render json: @clue, status: :ok
     else
@@ -29,6 +32,7 @@ class CluesController < ApplicationController
   end
 
   def destroy
+    return error_message(:unauthorized) unless authorized?(@game.creator)
     @clue.destroy
     head :no_content
   end
@@ -41,7 +45,7 @@ class CluesController < ApplicationController
     end
 
     def set_game
-      @game = Game.where(params[:game_id]).take
+      @game = Game.where(id: params[:game_id]).take
       error_message(:not_found) unless @game
     end
 

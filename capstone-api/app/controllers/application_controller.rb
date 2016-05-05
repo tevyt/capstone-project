@@ -24,15 +24,24 @@ class ApplicationController <ActionController::API
     render json: {errors: error}, status: status_code
   end
 
-  def authorized?(user)
-    @current_user == user
+  def auth_token
+    request.headers['Authorization'].split('=')[-1]
   end
-  
+
+  def current_user
+    User.find_by(auth_token: auth_token)
+  end
+
+  def authorized?(user)
+    auth_token == user.auth_token
+  end
+
   private
   def authenticate_token
     authenticate_with_http_token do |token, options|
-      @current_user = User.find_by(auth_token: token)
+      current_user = User.find_by(auth_token: token)
     end
   end
+
 
 end

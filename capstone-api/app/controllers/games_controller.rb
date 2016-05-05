@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :update, :destroy, :join, :quit, :discover]
   before_action :authenticate, only: [:create, :update, :destroy, :join, :quit, :discover]
 
-  def index 
+  def index
     @games = Game.all
     render json: @games
   end
@@ -13,8 +13,8 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    @game.creator = @current_user
-    if @game.save 
+    @game.creator = current_user
+    if @game.save
       render json: @game, status: :created
     else
       error_message(:bad_request, @game.errors)
@@ -31,20 +31,20 @@ class GamesController < ApplicationController
   end
 
   def join
-    @game.users << @current_user unless @game.users.include?(@current_user) 
+    @game.users << current_user unless @game.users.include?(current_user)
     render json: {message: 'You have been added to this game'}
   end
 
   def quit
-    @game.users.delete @current_user
+    @game.users.delete current_user
     render json: {message: 'You have quit this game'}
   end
 
   def discover
     @clue = Clue.find(params[:clue_id])
-    render json: {errors: {error: 'You have not joined that game'}}, status: :unauthorized unless @game.players.include?(@current_user)
+    render json: {errors: {error: 'You have not joined that game'}}, status: :unauthorized unless @game.players.include?(current_user)
     render json: {errors: {error: 'This clue has already been discovered'}}, status: :bad_request if @clue.discovered?
-    @clue.discover(@current_user)
+    @clue.discover(current_user)
   end
 
   protected

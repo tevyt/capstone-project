@@ -43,7 +43,7 @@ class UsersController < ApplicationController
 
   def register_token
     token = Token.new(token: params[:token])
-    @current_user.tokens << token
+    current_user.tokens << token
     if token.persisted?
       message = "New Device added"
       GcmWorker.perform_async(message: message, tokens: token)
