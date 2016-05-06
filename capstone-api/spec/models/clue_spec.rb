@@ -31,6 +31,7 @@ RSpec.describe Clue, type: :model do
     expect(@clue).to_not be_discovered 
     @clue.discover(user)
     expect(@clue.game_history).to be_truthy
+    expect(@clue.game_history.score).to eq 1
     expect(@clue).to be_discovered
   end
 

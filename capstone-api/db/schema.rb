@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504220555) do
+ActiveRecord::Schema.define(version: 20160506173400) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -38,12 +38,12 @@ ActiveRecord::Schema.define(version: 20160504220555) do
   add_index "coordinates", ["clue_id"], name: "index_coordinates_on_clue_id"
 
   create_table "game_histories", force: :cascade do |t|
-    t.integer  "score"
+    t.integer  "score",      default: 0
     t.integer  "rank"
     t.integer  "game_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "game_histories", ["game_id"], name: "index_game_histories_on_game_id"

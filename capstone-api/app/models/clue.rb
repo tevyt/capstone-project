@@ -8,6 +8,7 @@ class Clue < ActiveRecord::Base
   def discover(user)
     update(discovered: true)
     self.game_history = GameHistory.where(game_id: game.id , user_id: user.id).take
+    self.game_history.score += 1
     save
   end
 end

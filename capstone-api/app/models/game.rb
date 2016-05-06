@@ -30,6 +30,11 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def score_board
+    @score_board = GameHistories.where(game_id: self.id).order(:score)
+    @score_borad.each_index { |index| @score_board[index].rank = index + 1 }
+  end
+
   private
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius

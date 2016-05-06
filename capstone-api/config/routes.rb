@@ -18,4 +18,6 @@ Rails.application.routes.draw do
 
   match "/games/:id/clues/:clue_id/discover", to: "games#discover", via: "patch"
   put '/games/:id/clues/:clue_id/discover', to: 'games#discover'
+
+  get '/games/:id/score_board', to: 'games#score_board'
 end

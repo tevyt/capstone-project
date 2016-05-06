@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :join, :quit, :discover]
+  before_action :set_game, only: [:show, :update, :destroy, :join, :quit, :discover, :score_board]
   before_action :authenticate, only: [:create, :update, :destroy, :join, :quit, :discover]
 
   def index
@@ -46,6 +46,12 @@ class GamesController < ApplicationController
     render json: {errors: {error: 'This clue has already been discovered'}}, status: :bad_request if @clue.discovered?
     @clue.discover(current_user)
   end
+
+  def score_board
+    render json: {errors: {error: 'This game is not active'}} unless @game.active
+    render json: @game.score_board
+  end
+
 
   protected
   def set_game
