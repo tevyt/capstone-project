@@ -53,7 +53,7 @@ RSpec.describe GamesController, type: :controller do
 
   describe 'PATCH update' do
     it 'should update a game' do
-      @game.save 
+      @game.save
       patch :update, id: @game.id, game: {radius: 20}
       @game.reload
       expect(@game.radius).to eq(20)
@@ -120,10 +120,59 @@ RSpec.describe GamesController, type: :controller do
       game.players << @player
       game.clues << clue
       request.headers['Authorization'] = "Token token=#{@player.auth_token}"
-      put :discover, id: game.id, clue_id: clue.id 
+      put :discover, id: game.id, clue_id: clue.id
       expect(clue.reload).to be_discovered
       expect(response).to have_http_status(:ok)
     end
+  end
+
+  describe 'GET scoreboard' do
+    def create_game
+      user1 = User.create!(firstname: 'Test1', lastname: 'Test2', email: 'test1@test.org',password: 'password1')
+      user2 = User.create!(firstname: 'Trial', lastname: 'Trialing', email:'trial@trial.com', password:'password1')
+      user3 = User.create!(firstname: 'Example', lastname: 'Exampler', email: 'example@example.com', password:'password1')
+      clue1 = Clue.create!(hint: 'Hint', question: 'Question', answer: 'Answer')
+      clue2 = Clue.create!(hint: 'Lol', question: 'Lol?', answer:'Lol')
+      clue3 = Clue.create!(hint: 'Here', question: 'There', answer:'Where')
+      clue4 = Clue.create!(hint: 'Look over there', question: 'Where is', answer:'There is')
+      clue5 = Clue.create!(hint: 'You want', question:'Any way', answer:'It')
+      game = Game.create!(name: 'A ways off', start_time: 1.year.from_now)
+      creator = User.create!(firstname: 'The', lastname: 'Creator', email:'the@creator.com', password: '1234567890123')
+      game.creator = creator
+      game.players << [user1, user2, user3]
+      game.clues = [clue1, clue2, clue3, clue4, clue5]
+      game.save
+      clue1.discover(user1)
+      clue2.discover(user1)
+      clue3.discover(user1)
+      clue4.discover(user2)
+      clue5.discover(user2)
+      game
+    end
+    it 'should not get the score_board for an inactive game' do
+      game = create_game
+      get :score_board, id: game.id
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'should produce a scoreboard for an active game' do
+      game = create_game
+      game.update_attribute(:active, true)
+      get :score_board, id: game.id
+      expect(response).to have_http_status :ok
+      result = response_body
+
+      user1 = User.find_by(firstname: 'Test1')
+      expect(result[0]['score']).to eq(3)
+      expect(result[0]['user_id']).to eq(user1.id)
+
+      user2 = User.find_by(firstname: 'Trial')
+      expect(result[1]['score']).to eq(2)
+      expect(result[1]['user_id']).to eq(user2.id)
+
+      expect(result[2]['score']).to eq(0)
+    end
+      
   end
 
 end

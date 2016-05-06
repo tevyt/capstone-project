@@ -31,8 +31,8 @@ class Game < ActiveRecord::Base
   end
 
   def score_board
-    @score_board = GameHistories.where(game_id: self.id).order(:score)
-    @score_borad.each_index { |index| @score_board[index].rank = index + 1 }
+    @score_board = GameHistory.where(game_id: self.id).order(score: :desc)
+    @score_board.each_index { |index| @score_board[index].rank = index + 1 }
   end
 
   private
