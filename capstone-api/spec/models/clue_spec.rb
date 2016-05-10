@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Clue, type: :model do
 	before(:each) do
-		@clue = Clue.new(hint: 'Test' , question: 'Test' , answer: 'Test')
+		@clue = Clue.new(hint: 'Test' , question: 'Test' , answer: 'Test', longitude: 180, latitude: 90)
 	end
 
 	it "should save a valid clue" do

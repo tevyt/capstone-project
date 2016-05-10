@@ -2,7 +2,8 @@ class Clue < ActiveRecord::Base
   belongs_to :game
   belongs_to :game_history
   validates :hint , :question , :answer , presence: true
-  has_one :coordinate
+  validates :latitude, numericality: {greater_than_or_equal_to: -90, less_than_or_equal_to: 90}
+  validates :longitude, numericality: {greater_than_or_equal_to: -180, less_than_or_equal_to: 180}
 
   #Set a clue as discovered, GameHistory exists due to association between Games and Users
   def discover(user)
@@ -12,4 +13,5 @@ class Clue < ActiveRecord::Base
     self.game_history.save
     save
   end
+
 end
