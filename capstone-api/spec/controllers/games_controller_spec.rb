@@ -101,6 +101,15 @@ RSpec.describe GamesController, type: :controller do
       expect(@game.users.size).to eq(2)
     end
   end
+  
+  describe "GET players" do
+    it 'should get all players in a game' do
+      @game.save
+      request.headers['Authorization'] = "Token token=#{@player.auth_token}"
+      get :players, id: @game.id
+      expect(response).to have_http_status(:ok)
+    end
+  end
 
   describe "DELETE quit" do
     it "should allow a user to quit a game" do
