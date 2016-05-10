@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user , only: [:show , :update, :destroy, :games, :available_games]
+  before_action :set_user , only: [:show , :update, :destroy, :games]
   before_action :authenticate, only: [:register_token]
   def index
     @users = User.all
@@ -59,13 +59,6 @@ class UsersController < ApplicationController
     render json: {message: @user.games}
   end
   
-  def available_games
-    GameHistory.where.not(user_id: params[:id]).select(:game_id,:user_id).all.each do |game|
-      @user.games << Game.where(id: game.game_id, active: false).where.not(user_id: game.user_id)
-    end
-    render json: {message: @user.games}
-  end
-
   protected
   def set_user
     @user = User.where(id:params[:id]).take

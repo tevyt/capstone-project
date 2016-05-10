@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   
   get "/games/:id/players", to: 'games#players'
   get "/users/:id/games", to: 'users#games'
-  get "/users/:id/available_games", to: 'users#available_games'
 
   match "/games/:id/quit", to: "games#quit", via: "delete"
   match "/users/register_token", to: "users#register_token", via: "post"

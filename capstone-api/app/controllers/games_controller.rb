@@ -1,9 +1,14 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :join, :quit, :players, :discover, :score_board]
+  before_action :set_game, except: [:index, :create]
   before_action :authenticate, only: [:create, :update, :destroy, :join, :quit, :discover]
 
   def index
     @games = Game.all
+    if params[:available]
+      authenticate
+      @user = current_user
+      @games = @games.select {|game| !game.players.include?(@user) and !game.active?}
+    end
     render json: @games
   end
 

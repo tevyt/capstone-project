@@ -97,18 +97,9 @@ RSpec.describe UsersController, type: :controller do
   describe "GET games" do
     it 'should get all games a player is in' do
       @user.save
-      game = Game.create(name: 'This is a game', start_time: 3.minutes.from_now)
+      Game.create!(name: 'This is a game', start_time: 3.minutes.from_now)
       request.headers['Authorization'] = "Token token=#{@user.auth_token}"
       get :games, id: @user.id
-      expect(response).to have_http_status(:ok)
-    end
-  end
-  describe "GET available_games" do
-    it 'should get all available games for a user' do
-      @user.save
-      game = Game.create(name: 'This is a game', start_time: 3.minutes.from_now)
-      request.headers['Authorization'] = "Token token=#{@user.auth_token}"
-      get :available_games, id: @user.id
       expect(response).to have_http_status(:ok)
     end
   end

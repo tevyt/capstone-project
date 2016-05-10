@@ -19,6 +19,29 @@ RSpec.describe GamesController, type: :controller do
       expect(assigns :games).to eq([@game])
       expect(response).to have_http_status(:ok)
     end
+
+    it 'should be able to return inactive games that a user is not a part of' do
+      player2 = User.create!(firstname: 'Test', lastname: 'Test', email: 'test@test.org', password: 'I really love sentences')
+      game1 = Game.create!(@game_params)
+      game2 = Game.create!(@game_params)
+      game3 = Game.create!(@game_params)
+
+      game1.players << player2
+      game2.players << player2
+      game3.players << player2
+
+      game2.players << @creator
+
+      game1.update(active: false)
+      game2.update!(active: false)
+      game3.update!(active: true)
+
+
+      get :index, available: true
+      expect(assigns :games).to eq([game1])
+      expect(assigns :user).to eq(@creator)
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe 'GET show' do
