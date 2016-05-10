@@ -55,6 +55,7 @@ class UsersController < ApplicationController
   def games
     ids = GameHistory.where(user_id: @user.id).map{|history| history.game_id}
     @games = Game.where(id: ids)
+    render json: @games
   end
   
   protected
