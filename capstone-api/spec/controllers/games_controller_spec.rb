@@ -6,7 +6,7 @@ RSpec.describe GamesController, type: :controller do
     @game = Game.new(@game_params)
     @creator = User.create(firstname: 'Travis', lastname: 'Smith', email: 'email@email.com', password: 'pazzword')
     @player = User.create(firstname: 'Example', lastname: 'Player', email: 'email@player.com', password: 'pazzword')
-    @clue = Clue.create(hint: :hint, question: :question, answer: :answer)
+    @clue = Clue.create(hint: :hint, question: :question, answer: :answer, latitude: 33, longitude: 44)
     @game.clues << @clue
     @game.creator = @creator
     request.headers['Authorization'] = "Token token=#{@creator.auth_token}"
@@ -123,7 +123,7 @@ RSpec.describe GamesController, type: :controller do
 
   describe 'PATCH discover' do
     it 'should allow a user to discover a clue' do
-      clue = Clue.new(hint: 'Hint', question: 'Question', answer: 'Answer')
+      clue = Clue.new(hint: 'Hint', question: 'Question', answer: 'Answer', latitude: 33, longitude: 44)
       game = Game.create(name: 'This is a game', start_time: 3.days.from_now)
       game.creator = @creator
       game.players << @player
@@ -140,11 +140,11 @@ RSpec.describe GamesController, type: :controller do
       user1 = User.create!(firstname: 'Test1', lastname: 'Test2', email: 'test1@test.org',password: 'password1')
       user2 = User.create!(firstname: 'Trial', lastname: 'Trialing', email:'trial@trial.com', password:'password1')
       user3 = User.create!(firstname: 'Example', lastname: 'Exampler', email: 'example@example.com', password:'password1')
-      clue1 = Clue.create!(hint: 'Hint', question: 'Question', answer: 'Answer')
-      clue2 = Clue.create!(hint: 'Lol', question: 'Lol?', answer:'Lol')
-      clue3 = Clue.create!(hint: 'Here', question: 'There', answer:'Where')
-      clue4 = Clue.create!(hint: 'Look over there', question: 'Where is', answer:'There is')
-      clue5 = Clue.create!(hint: 'You want', question:'Any way', answer:'It')
+      clue1 = Clue.create!(hint: 'Hint', question: 'Question', answer: 'Answer', latitude: 33, longitude: 40)
+      clue2 = Clue.create!(hint: 'Lol', question: 'Lol?', answer:'Lol', latitude: 66, longitude: 80)
+      clue3 = Clue.create!(hint: 'Here', question: 'There', answer:'Where', latitude: 10, longitude: 10)
+      clue4 = Clue.create!(hint: 'Look over there', question: 'Where is', answer:'There is', latitude: 20, longitude: 20)
+      clue5 = Clue.create!(hint: 'You want', question:'Any way', answer:'It', latitude: 40, longitude: 40)
       game = Game.create!(name: 'A ways off', start_time: 1.year.from_now)
       creator = User.create!(firstname: 'The', lastname: 'Creator', email:'the@creator.com', password: '1234567890123')
       game.creator = creator
