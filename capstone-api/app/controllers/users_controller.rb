@@ -53,10 +53,8 @@ class UsersController < ApplicationController
   end
   
   def games
-    GameHistory.where(user_id: params[:id]).select(:game_id).all.each do |game|
-      @user.games << Game.where(id: game.game_id)
-    end
-    render json: {message: @user.games}
+    ids = GameHistory.where(user_id: @user.id).map{|history| history.game_id}
+    @games = Game.where(id: ids)
   end
   
   protected
