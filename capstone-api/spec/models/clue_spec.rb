@@ -45,4 +45,25 @@ RSpec.describe Clue, type: :model do
     @clue.discover(user)
     expect(@clue).to be_discovered
   end
+
+	it "should invalidate latitude outside valid range" do
+    @clue.latitude = -90.5
+    expect(@clue).to_not be_valid
+    @clue.latitude = 90.5
+    expect(@clue).to_not be_valid 
+	end
+
+	it "should invalidate longitude outside valid range" do
+    @clue.longitude = -181
+    expect(@clue).to_not be_valid
+    @clue.longitude = 181 
+    expect(@clue).to_not be_valid
+	end
+
+	it "should accept coordinates at the extremes" do
+		@clue.latitude = 90
+		@clue.longitude = 180
+		expect(@clue).to be_valid
+	end
+
 end
