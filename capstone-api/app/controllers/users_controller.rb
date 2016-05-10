@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user , only: [:show , :update, :destroy, :games]
   before_action :authenticate, only: [:register_token]
+  
   def index
     @users = User.all
     render json: @users.to_json(except: :auth_token)

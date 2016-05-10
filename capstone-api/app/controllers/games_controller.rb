@@ -39,13 +39,6 @@ class GamesController < ApplicationController
     @game.users << current_user unless @game.users.include?(current_user)
     render json: {message: 'You have been added to this game'}
   end
-  
-  def players
-    GameHistory.where(game_id: params[:id]).select(:user_id).all.each do |user|
-      @game.users << User.where(id: user.user_id)
-    end
-    render json: {message: @game.users}
-  end
 
   def quit
     @game.users.delete current_user
@@ -67,7 +60,6 @@ class GamesController < ApplicationController
     end
   end
 
-
   protected
   def set_game
     @game = Game.where(id: params[:id]).take
@@ -75,7 +67,7 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:name, :radius, :start_time)
+    params.require(:game).permit(:name, :radius, :start_time, :end_time)
   end
 
 end

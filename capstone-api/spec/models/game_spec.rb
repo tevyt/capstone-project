@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
 	before(:each) do
-    @game = Game.new(name: 'Test', start_time: 3.minutes.from_now)
+    @game = Game.new(name: 'Test', start_time: 3.minutes.from_now, end_time: 5.minutes.from_now)
 		@clue = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test', longitude: 30, latitude: 70)
 	end
 
@@ -89,5 +89,10 @@ RSpec.describe Game, type: :model do
   it "should not allow a start date in the past" do
     @game.start_time = 3.days.ago
     expect(@game).to_not be_valid
+  end
+  
+  it "should not allow a end date in the past" do
+  	@game.end_time = 3.days.ago
+  	expect(@game).to_not be_valid
   end
 end

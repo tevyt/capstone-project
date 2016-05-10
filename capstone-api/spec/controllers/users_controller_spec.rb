@@ -98,7 +98,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should get all games a player is in' do
       @user.save
       player2 = User.create!(firstname: 'Test', lastname: 'STest', email: 'thisisatest@test.net', password: 'testtestestestest')
-      game = Game.create!(name: 'This is a game', start_time: 3.minutes.from_now)
+      game = Game.create!(name: 'This is a game', start_time: 3.minutes.from_now, end_time: 5.minutes.from_now)
       game.players << @user
       game2 = game.clone
       game2.save

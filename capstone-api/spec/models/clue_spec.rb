@@ -24,7 +24,7 @@ RSpec.describe Clue, type: :model do
 
   it "should belong to the game_history of a discovered user" do
     user = User.create(email: 'email@email.com' , firstname: 'Travis' , lastname: 'Smith' , password: '123456789')
-    game = Game.create(name: 'Cool Game', start_time: 3.minutes.from_now)
+    game = Game.create(name: 'Cool Game', start_time: 3.minutes.from_now, end_time: 5.minutes.from_now)
     @clue.game = game
     game.users << user
     @clue.save
@@ -37,7 +37,7 @@ RSpec.describe Clue, type: :model do
 
   it "should add a discovery to a GameHistory when a clue is discovered" do
     user = User.create(email: 'email@email.com' , firstname: 'Travis' , lastname: 'Smith' , password: '123456789')
-    game = Game.create(name: 'Cool Game', start_time: 3.minutes.from_now)
+    game = Game.create(name: 'Cool Game', start_time: 3.minutes.from_now, end_time: 5.minutes.from_now)
     @clue.game = game
     game.players << user
     @clue.save
