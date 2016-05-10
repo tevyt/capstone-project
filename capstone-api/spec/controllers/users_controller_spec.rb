@@ -5,6 +5,7 @@ RSpec.describe UsersController, type: :controller do
     @user_params = {email: 'test@test.com', password: '1234567890', firstname: 'Test' , lastname: 'Test'}
     @user = User.new(@user_params)
   end
+  
   describe 'GET index' do
     it "assigns @users" do
       @user.save
@@ -94,6 +95,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
+  
   describe "GET games" do
     it 'should get all games a player is in' do
       @user.save
@@ -113,4 +115,14 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
+  
+  describe "GET created_games" do
+    it 'should get all games a user created only' do
+      @user.save
+      game = Game.create!(name: 'This is a game', start_time: 3.minutes.from_now, end_time: 5.minutes.from_now)
+      request.headers['Authorization'] = "Token token=#{@user.auth_token}"
+      expect(response).to have_http_status(:ok)
+    end
+  end
+  
 end

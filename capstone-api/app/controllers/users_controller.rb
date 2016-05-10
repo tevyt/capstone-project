@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user , only: [:show , :update, :destroy, :games]
+  before_action :set_user , only: [:show , :update, :destroy, :games, :created_games]
   before_action :authenticate, only: [:register_token]
   
   def index
@@ -59,6 +59,10 @@ class UsersController < ApplicationController
     render json: {message: @games}
   end
   
+  def created_games
+    render json: {message: @user.games}
+  end
+  
   protected
   def set_user
     @user = User.where(id:params[:id]).take
@@ -68,4 +72,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email , :password , :firstname, :lastname)
   end
+  
 end
