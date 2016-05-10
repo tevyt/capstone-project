@@ -14,4 +14,8 @@ class Clue < ActiveRecord::Base
     save
   end
 
+  def coordinate
+    {longitude: self.longitude, latitude: self.latitude}
+  end
+
 end

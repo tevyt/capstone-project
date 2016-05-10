@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
 	before(:each) do
     @game = Game.new(name: 'Test', start_time: 3.minutes.from_now)
-		@clue = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
+		@clue = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test', longitude: 30, latitude: 70)
 	end
 
 
@@ -51,40 +51,36 @@ RSpec.describe Game, type: :model do
 	end
 
 	it "should return the distance between 2 points" do
-		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
-		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+		tokyo = {latitude: 35.5533 , longitude: 139.7811}#Haneda
+		kingston = {latitude: 17.9356 , longitude: -76.7875}#Norman Manley
 		distance = Game.new.send(:meter_distance , tokyo , kingston)
 		expect(distance).to be_within(150).of(12_928_536.276)#Distance in meters? Margin of error too big?  I mean it is kinda far
 	end
 
   it "should be able to tell if 2 coordinates are too close" do
     @game.radius = 5
-    place1 = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)
-    place2 = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)
+    place1 = {latitude: 17.9356 , longitude: -76.7875}
+    place2 = {latitude: 17.9356 , longitude: -76.7875}
     expect(@game.send(:intersect? , place1 , place2)).to be true
   end
 
   it "should be able to tell if 2 coordinates are far enough apart" do
     @game.radius = 100
-		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
-		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+		tokyo = {latitude: 35.5533 , longitude: 139.7811}#Haneda
+		kingston = {latitude: 17.9356 , longitude: -76.7875}#Norman Manley
     expect(@game.send(:intersect?, tokyo , kingston)).to be false
   end
 
   it "should be able to add valid clues that do not intersect" do
-		tokyo = Coordinate.new(latitude: 35.5533 , longitude: 139.7811)#Haneda
-		kingston = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
-		clue_1 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
-		clue_2 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test')
-    clue_1.coordinate = tokyo
-    clue_2.coordinate = kingston
+    clue_1 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test', latitude: 35.5533, longitude: 139.7811)
+    clue_2 = Clue.new(hint: 'Test Hint' , question: 'Test' , answer: 'Test', latitude: 17.9356, longitude: -76.7875)
     @game.add_clue(clue_1)
     @game.add_clue(clue_2)
     expect(@game.clues.size).to eq 2
   end
 
   it "should not allow for the addition of clues that intersect" do
-    @clue.coordinate = Coordinate.new(latitude: 17.9356 , longitude: -76.7875)#Norman Manley
+    @clue.coordinate.update(latitude: 17.9356 , longitude: -76.7875)
     expect(@game.add_clue(@clue)).to be_truthy
     expect(@game.add_clue(@clue.clone)).to be false
     expect(@game.clues.size).to eq 1
