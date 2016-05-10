@@ -92,7 +92,13 @@ RSpec.describe Game, type: :model do
   end
   
   it "should not allow a end date in the past" do
-  	@game.end_time = 3.days.ago
+  	@game.end_time = 5.days.ago
+  	expect(@game).to_not be_valid
+  end
+  
+  it "should not allow a end date before start date" do
+  	@game.start_time = 3.minutes.from_now
+  	@game.end_time = 2.minutes.from_now
   	expect(@game).to_not be_valid
   end
 end

@@ -2,8 +2,8 @@ class Game < ActiveRecord::Base
   include DistanceManager
   validates :name , presence: true
   validates :radius , numericality: {greater_than: 0 , less_than: 6_371_000_000} #Radius can't be bigger than the radius of the earth!
-  validates :start_time, presence: true, numericality: {less_than: :end_time}
-  validates :end_time, presence: true, numericality: {greater_than: :start_time}
+  validates :start_time, presence: true
+  validates :end_time, presence: true
   has_many :game_histories
   has_many :users, through: :game_histories
   has_many :clues , dependent: :destroy
@@ -11,6 +11,7 @@ class Game < ActiveRecord::Base
   alias_attribute :creator, :user
   validate :start_date_must_be_in_the_future, on: :create
   validate :end_date_must_be_in_the_future, on: :create
+  validate :end_date_after_start_date, on: :create
   after_create :start
   alias_method :players, :users
 
@@ -49,6 +50,11 @@ class Game < ActiveRecord::Base
   
   def end_date_must_be_in_the_future
     errors.add(:end_time, 'End Time must be in the future') if end_time.present? and end_time < DateTime.now
+  end
+  
+  def end_date_after_start_date
+    errors.add(:start_time, 'Start Time must be before End Time') if self[:end_time].present? and start_time.present? and start_time > self[:end_time]
+    errors.add(:end_time, 'End Time must be after Start Time') if end_time.present? and self[:start_time].present? and end_time < self[:start_time]
   end
   
   def start
