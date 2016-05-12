@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510164108) do
+ActiveRecord::Schema.define(version: 20160511234126) do
 
   create_table "clues", force: :cascade do |t|
     t.text     "hint"
@@ -43,13 +43,14 @@ ActiveRecord::Schema.define(version: 20160510164108) do
 
   create_table "games", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.boolean  "active",     default: false
-    t.integer  "radius",     default: 1
+    t.boolean  "active",      default: false
+    t.integer  "radius",      default: 1
     t.integer  "user_id"
+    t.text     "description"
   end
 
   add_index "games", ["user_id"], name: "index_games_on_user_id"

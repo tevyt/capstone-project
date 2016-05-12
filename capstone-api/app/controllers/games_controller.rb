@@ -7,7 +7,7 @@ class GamesController < ApplicationController
     if params[:available]
       authenticate
       @user = current_user
-      @games = @games.select {|game| !game.players.include?(@user) and !game.active?}
+      @games = @games.select {|game| !game.players.include?(@user) and !game.active? and game.clues.empty?}
     end
     render json: @games
   end
@@ -67,7 +67,7 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:name, :radius, :start_time, :end_time)
+    params.require(:game).permit(:name, :description, :radius, :start_time, :end_time)
   end
 
 end
