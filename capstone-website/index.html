@@ -2,44 +2,106 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Vector Scavenger Hunt</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title id ="title">Vector Scavenger Hunt</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 </head>
 <body>
-	<div id="header" class="col-md-12">
+<div id="header" class="col-md-12">
 		<div>
-			<a href="index.html" id="logo" class="col-md-4"><img src="images/logo.png" style="max-width:70%; float:left;"></a>
+			<a href="index.html" id="logo" class="col-md-4"><img src="images/logo.png" style="max-width:80%; float:left;"></a>
 			<ul class="col-md-8 pull-right">
-				<li class="selected">
+				<li class="selected col-md-2">
 					<a href="index.html">Home</a>
 				</li>
-				<li>
+				<li class= "col-md-2">
 					<a href="about.html">About</a>
 				</li>
-				<li>
+				<li class= "co">
 					<a href="developers.html">Developers</a>
 				</li>
-				<li>
+				<li class="col-md-2">
 					<a href="contact.html">Contact</a>
 				</li>
 			</ul>
 		</div>
 	</div>
+
 	<div id="body" class="home">
+		<br><br><br><br>
 		<div class="text-center">
 			<hr />
 			<div>
-				<h3>Vector Scavenger Hunt</h3>
-				<img src="images/logo.png" style="max-height:50%; max-width:50%;" />
+				<h3 id="scavenger">Vector Scavenger Hunt</h3>
 			</div>
 		</div>
+			<div class="container">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <div class="carousel-inner" role="listbox">
+
+      <div class="item active">
+        <img src="images/logo.png" alt="Vector" style="width:90%;">
+        <div class="carousel-caption">
+          <h3>Scavenger Hunt Game</h3>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="images/map_trail.png" alt="Trail" width="460" height="345">
+        <div class="carousel-caption">
+          <h3 class="hunt">Join the hunt and solve clues!</h3>
+          <p class="hunt"></p>
+        </div>
+      </div>
+    
+      <div class="item">
+        <img src="images/map.jpg" alt="Map" style="width:95%; height:50%;">
+        <div class="carousel-caption">
+          <h3>Map</h3>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="images/scroll_header.png" alt="Scroll" style="width:50%; height:50%;">
+        <div class="carousel-caption">
+          <h3>Flowers</h3>
+          <p>Beatiful flowers in Kolymbari, Crete.</p>
+        </div>
+      </div>
+  
+    </div>
+
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
 		<hr />
 		<div class="news">
-			<img src="images/eco-park.png" style="float:left" alt="">
-			<div style="text-align:right; float:right;">
+			<img src="images/map_trail.png" style="float:left" alt="">
+			<div style="text-align:left; float:right;">
 				<h3>Easy to start games!</h3>
+				<br>
 				<p>
 					Just give a location and a list of clues and the rest is history!
 				</p>
@@ -47,19 +109,21 @@
 		</div>
 		<hr />
 		<div class="news">
-			<img src="images/eco-park.png" style="float:right" alt="">
+			<img src="images/scroll_header.png" style="float:right" alt="" width=40%>
 			<div style="text-align:left; float:left;">
 				<h3>This is just a place holder</h3>
 				<p>
-					This website template has been designed by <br> <a href="http://www.freewebsitetemplates.com/">Free Website Templates</a> for you, for free. You can replace all this <br> text with your own text. You can remove any link to our website <br> from this website template, you're free to use this website template <br> without linking back to us.
+					
 				</p>
 				<p>
-					If you're having problems editing this website template, then don't hesitate to ask for help on the <a href="http://www.freewebsitetemplates.com/forums/">Forums</a>.
+				
 				</p>
 			</div>
 		</div>
 	</div>
 	<hr />
+
+
 	<div id="footer">
 		<div>
 			<div class="connect">

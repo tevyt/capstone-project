@@ -1,5 +1,3 @@
-/* Website template by freewebsitetemplates.com */
-/*------------------------- Fonts ------------------------*/
 @font-face {
 	font-family: 'anticregular';
 	src: url('../fonts/antic-regular-webfont.eot');
@@ -7,12 +5,46 @@
 	font-weight: normal;
 	font-style: normal;
 }
-/*------------------------- Layout styles ------------------------*/
+@font-face {
+   font-family: 'funfont';
+   src: url('../fonts/KBDunkTank.ttf');
+   font-weight:normal;
+}
+
+@font-face {
+   font-family: 'piratefont';
+   src: url('../fonts/RAPSCALL.TTF');
+   font-weight:normal;
+}
+
+@font-face {
+   font-family: 'skeleton';
+   src: url('../fonts/skeleton.ttf');
+   font-weight:normal;
+}
+
+@font-face {
+   font-family: 'font1';
+   src: url('../fonts/Mona Shark.otf');
+   font-weight:normal;
+}
+@font-face {
+   font-family: 'font2';
+   src: url('../fonts/travel.TTF');
+   font-weight:normal;
+}
+
+@font-face {
+   font-family: 'treasure';
+   src: url('../fonts/Treasure Island.ttf');
+   font-weight:normal;
+}
+
 body {
 	margin:0;
 	font-family:Arial, Helvetica, sans-serif;
-	background:url(../images/bg-body.jpg);
 	font-size:12px;
+	background: url(../images/old_map.png) repeat 0 0;
 }
 a {
 	outline:none;
@@ -33,21 +65,63 @@ p a {
 p a:hover {
 	color:#1bb5ac;
 }
-/*------------------------- Header ------------------------*/
-#header {
-	background:url(../images/bg-header.jpg);
+
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 80%;
+      margin: 0 auto;
+      overflow:visible;
+  }
+.carousel-caption {
+    position: relative;
+    left: auto;
+    right: auto;
+    margin-top: 40px;
+    
+}
+.carousel-caption h3{
+color: #572e00;	
+}
+#myCarousel{
+	height: 500px;
+    width: 1000px;
+    overflow: hidden;
+    text-align: center;
+    background-color: #00b33c;
+    margin-right: 200px;
+    top:50px;
+    
+}
+
+.hunt{
+	position: absolute;
+    top: 90%;
+    transform: translateY(-90%);
+}
+
+#header  {
+		
 	height:130px;
+	background-color: #00988b;
+	position:relative;
 }
 #header div {
 	margin:0 auto;
 	overflow:hidden;
 	padding:0 0 0 29px;
 	width:931px;
-}
-#header div a#logo {
+	position:relative;
+	
+	}
+#header a #logo {
 	display:block;
 	float:left;
 	margin:25px 0 0;
+	height:50%;
+	position: absolute;
+	overflow: hidden;
+	
+	
 }
 #header div ul {
 	float:right;
@@ -56,35 +130,49 @@ p a:hover {
 	overflow:hidden;
 	padding:0;
 }
+
 #header div ul li {
 	float:left;
 	height:130px;
 	text-align:center;
-	width:110px;
+	width:150px;
+	font-weight:bold;
+	font-size:20px;
+	
+	
 }
 #header div ul li a {
-	color:#787b66;
+	color: #663300;
 	display:block;
 	height:130px;
-	letter-spacing:.075em;
 	line-height:150px;
 	text-align:center;
 	text-decoration:none;
-	text-shadow:0 1px 0 #fff;
-	width:110px;
-}
-#header div ul li.selected a {
-	background:url(../images/bg-nav-selected.png) repeat-x;
+	width:100px;
+	font-family:funfont;
+	list-style: none;
+	margin: 0 20px;
+	padding: 0;
+	display: flex;
+	justify-content: space-around;
+	
+
 }
 #header div ul li.selected a, #header div ul li a:hover {
-	color:#1bb5ac;
+	color: #FFFF66;
 }
-/*------------------------- Body ------------------------*/
+
 #body {
 	margin:0 auto 97px;
 	min-height:1005px;
 	padding:38px 29px 0;
 	width:902px;
+}
+
+#scavenger{
+	font-size:60px;
+	font-weight: bold;
+	font-family: piratefont;
 }
 #body.home .blog {
 	overflow:hidden;
@@ -113,6 +201,7 @@ p a:hover {
 	margin-bottom:3px;
 	text-align:right;
 	text-indent:110px;
+	
 }
 #body.home .blog div p {
 	margin:0;
@@ -162,7 +251,7 @@ p a:hover {
 #body.home .news div h3 {
 	color:#e49e06;
 	font-family:anticregular;
-	font-size:20px;
+	font-size:30px;
 	font-weight:400;
 	letter-spacing:.1em;
 	line-height:24px;
@@ -170,23 +259,23 @@ p a:hover {
 }
 #body.home .news div p {
 	margin:0 0 24px;
+	font-size: 20px;
 }
 
-#body.about p {
-	margin:6px 0 72px;
-	text-align:justify;
-}
 #body.contact h3 {
 	color:#e49e06;
-	font-family:anticregular;
-	font-size:20px;
+	font-family:font2;
+	font-size:40px;
 	font-weight:400;
 	letter-spacing:.05em;
 	margin:11px 0 0;
+	padding:10px;
+	top:40px;
 }
 
 #body.contact p {
 	margin:0;
+	font-size: 20px;
 }
 #body.contact h3 a {
 	color:#1bb5ac;
@@ -195,6 +284,7 @@ p a:hover {
 }
 #body.contact > div {
 	padding:18px 0 0 40px;
+	
 }
 #body.contact > div div:first-child {
 	margin-bottom:71px;
@@ -317,13 +407,13 @@ form{
 	padding:35px 0 0;
 	text-align:center;
 	width:580px;
-	*margin:0 0 0 140px;/* Needed for IE7 and old versions */
+	*margin:0 0 0 140px;
 }
 #body.blog > div:first-child > ul.paging li {
 	background:none;
 	display:inline-block;
 	margin:0;
-	*float:left;/* Needed for IE7 and old versions */
+	*float:left;
 }
 #body.blog > div:first-child > ul.paging li a {
 	color:#636363;
@@ -357,29 +447,45 @@ form{
 	margin:0;
 	padding:0;
 }
+
 #body.about h3 {
-	color:#e49e06;
-	font-family:anticregular;
-	font-size:20px;
-	font-weight:400;
-	letter-spacing:.05em;
-	line-height:24px;
-	margin:14px 0 0;
-}
-#body.about h2 {
 	color:#e49e06;
 	font-family:anticregular;
 	font-size:30px;
 	font-weight:400;
 	letter-spacing:.05em;
+	line-height:24px;
+	margin:14px 0 0;
+}
+#body.about{
+	background-color: #ffef96 ;
+	border:solid 5px #8CD100;
+	
+}
+
+#body.about p {
+	margin:6px 0 72px;
+	text-align:justify;
+	font-size: 18px;
+}
+#body.about h2 {
+	color:#CC6600;
+	font-family:font2;
+	font-size:70px;
+	letter-spacing:.05em;
 	margin:11px 0 0;
+	top:20px;
 }
 #body.blog > div:first-child > ul > li > a img:hover {
-	filter:alpha(opacity=90);/* Needed for IE8 and old versions */
-	opacity:0.9;
+	filter:alpha(opacity=90);
+	color:#996600;
+	font-weight:bold;
+	font-size:30px;
 }
 #body.blog > div:first-child > ul.paging li.selected a, #body.blog .sidebar ul li > a:hover, #body.blog .sidebar ul li span a:hover {
-	color:#e49e06;
+	color:#996600;
+	font-weight:bold;
+	font-size:30px;
 }
 .members{
 	padding:10px;
@@ -393,7 +499,6 @@ form{
 
 .member_deat {
 	color: #FFFFFF;
-
 }
 
 .member_img{
@@ -411,9 +516,9 @@ form{
 .member_alias{
 	font-size: 15px;
 }
-/*------------------------- Footer ------------------------*/
+
 #footer {
-	background:url(../images/bg-footer.png) repeat-x;
+	background-color: #674d3c;
 	height:130px;
 }
 #footer div {
@@ -442,4 +547,6 @@ form{
 }
 #footer div .connect a#github {
 	background:url(../images/icons.png) no-repeat 0 0;
+	max-width:50%;
+	max-height:50%;
 }
