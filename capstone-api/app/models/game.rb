@@ -25,6 +25,7 @@ class Game < ActiveRecord::Base
     clues << new_clue
   end
 
+
   def to_json(options)
     if options
       super(options)

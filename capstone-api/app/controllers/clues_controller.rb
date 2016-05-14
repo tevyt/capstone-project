@@ -15,7 +15,7 @@ class CluesController < ApplicationController
   def create
     return error_message(:unauthorized) unless authorized?(@game.creator)
     @clue = Clue.new(clue_params)
-    if @game.clues << @clue
+    if @game.add_clue(@clue)
       render json: @clue, status: :created
     else
       error_message(:bad_request , @clue.errors)
