@@ -198,6 +198,19 @@ RSpec.describe GamesController, type: :controller do
 
       expect(result[2]['score']).to eq(0)
     end
+
+    describe 'GET players' do
+      it 'should return a list of players in a game' do
+        game = Game.create!(name: 'Test Game', start_time: 3.years.from_now, end_time: 4.years.from_now)
+        user1 = User.create!(firstname: 'Thor', lastname: 'Odinson', email: 'thor@avengers.org', password: 'Mjolnir because I am worthy')
+        user2 = User.create!(firstname: 'Bruce', lastname: 'Banner', email: 'hulk@avengers.org', password: 'Hulk Smash')
+        game.players << [user1, user2]
+        get :players, id: game.id 
+        ids = response_body.map{|player| player['id'].to_i}
+        expect(ids).to include(user1.id)
+        expect(ids).to include(user2.id)
+      end
+    end
       
   end
 

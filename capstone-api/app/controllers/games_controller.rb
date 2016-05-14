@@ -60,6 +60,10 @@ class GamesController < ApplicationController
     end
   end
 
+  def players
+    render json: @game.players
+  end
+
   protected
   def set_game
     @game = Game.where(id: params[:id]).take
