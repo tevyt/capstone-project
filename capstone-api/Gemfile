@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-
 gem 'rails', '4.2.4'
 
 gem 'rails-api'
@@ -20,6 +19,7 @@ gem 'certified'
 group :production do
   gem 'pg'
   gem 'rails_12factor'
+  gem 'puma'
 end
 
 gem 'sidekiq'
