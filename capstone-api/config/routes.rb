@@ -24,4 +24,5 @@ Rails.application.routes.draw do
   put '/games/:id/clues/:clue_id/discover', to: 'games#discover'
 
   get '/games/:id/score_board', to: 'games#score_board'
+  get '/users/:id/tokens', to: 'users#tokens'
 end

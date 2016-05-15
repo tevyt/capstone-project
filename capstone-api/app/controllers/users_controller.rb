@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user , only: [:show , :update, :destroy, :games, :created_games]
+  before_action :set_user , only: [:show , :update, :destroy, :games, :created_games, :tokens]
   before_action :authenticate, only: [:register_token]
   
   def index
@@ -61,6 +61,10 @@ class UsersController < ApplicationController
   
   def created_games
     render json: {message: @user.games}
+  end
+
+  def tokens
+    render json: @user.tokens
   end
   
   protected
