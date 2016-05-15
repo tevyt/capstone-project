@@ -4,9 +4,8 @@ gem 'rails', '4.2.4'
 
 gem 'rails-api'
 
-gem 'spring', :group => :development
-
 group :development , :test do
+  gem 'spring'
 	gem 'rspec-rails' , '~> 3.0'
   gem 'sqlite3'
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

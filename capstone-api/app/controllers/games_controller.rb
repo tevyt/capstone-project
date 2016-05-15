@@ -7,7 +7,7 @@ class GamesController < ApplicationController
     if params[:available]
       authenticate
       @user = current_user
-      @games = @games.select {|game| !game.players.include?(@user) and !game.active? and game.clues.empty?}
+      @games = @games.select {|game| !game.players.include?(@user) and !game.active? and !game.clues.empty?}
     end
     render json: @games
   end

@@ -35,10 +35,16 @@ RSpec.describe GamesController, type: :controller do
       game1.update(active: false)
       game2.update!(active: false)
       game3.update!(active: true)
-      
-      game1.clues << @clue
-      game2.clues << @clue
-      game3.clues << @clue
+
+      clue1 = Clue.new(hint: :hint, answer: :answer, question: :question, latitude: 33, longitude: 44)   
+      clue2 = Clue.new(hint: :hint, answer: :answer, question: :question, latitude: 33, longitude: 44)  
+      clue3 = Clue.new(hint: :hint, answer: :answer, question: :question, latitude: 33, longitude: 44)  
+
+      game1.clues << clue1
+      game2.clues << clue2
+      game3.clues << clue3
+
+      puts game1.clues.first.id
       
       get :index, available: true
       expect(assigns :games).to eq([game1])
