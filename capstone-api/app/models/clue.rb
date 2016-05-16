@@ -12,6 +12,7 @@ class Clue < ActiveRecord::Base
     self.game_history.score += 1
     self.game_history.save
     save
+    GcmWorker.perform_async(game.id)
   end
 
   def coordinate

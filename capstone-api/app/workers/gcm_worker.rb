@@ -2,8 +2,9 @@ class GcmWorker
   include Sidekiq::Worker
 
   def perform(game_id)
-    gcm = GCM.new("AIzaSyDgEwlJvSX1Jew18m90u4K-ijIoXQHmkss")
-    options = {data: data[:message]}
-    gcm.send(data[:tokens], options)
+    game = Game.includes(:clues, :users).find(game_id)
+    gcm = GCM.new(Rails.configuration.x.GCM_KEY)
+    options = {data: {clues: game.clues.where(discovered: false)}}
+    puts gcm.send(game.tokens, options)
   end
 end

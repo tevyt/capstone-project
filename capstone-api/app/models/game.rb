@@ -39,6 +39,14 @@ class Game < ActiveRecord::Base
     @score_board.each_index { |index| @score_board[index].rank = index + 1 }
   end
 
+  def tokens 
+    token_array = []
+    players.each do |player|
+      player.tokens.each { |token| token_array << token.token }
+    end
+    token_array
+  end
+
   private
   def intersect?(coordinate1 , coordinate2)
     meter_distance(coordinate1 , coordinate2) <=  2 * radius

@@ -50,6 +50,7 @@ class GamesController < ApplicationController
     render json: {errors: {error: 'You have not joined that game'}}, status: :unauthorized unless @game.players.include?(current_user)
     render json: {errors: {error: 'This clue has already been discovered'}}, status: :bad_request if @clue.discovered?
     @clue.discover(current_user)
+    GcmWorker.perform_async(@clue.game.id)
   end
 
   def score_board
