@@ -43,14 +43,24 @@ class UsersController < ApplicationController
   end
 
   def register_token
-    token = Token.new(token: params[:token])
-    current_user.tokens << token
-    if token.persisted?
-      message = "New Device added"
-      GcmWorker.perform_async(message: message, tokens: token)
-    else
-      error_message(:bad_request)
+    token = current_user.tokens.where(token: params[:token]).take
+
+    unless token
+      token = Token.new(token: params)
+      current_user.tokens << token
     end
+
+    if token.persisted?
+      render json: {message: 'New Device added'}
+    else
+      error_message(:bad_request, 'Unable to register token')
+    end
+
+  end
+
+  def delete_token
+    Token.find(:token_id).destroy
+    head :no_content
   end
   
   def games

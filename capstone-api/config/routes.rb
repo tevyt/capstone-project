@@ -25,4 +25,6 @@ Rails.application.routes.draw do
 
   get '/games/:id/score_board', to: 'games#score_board'
   get '/users/:id/tokens', to: 'users#tokens'
+
+  delete '/tokens/:token_id', to: 'users#delete_token'
 end

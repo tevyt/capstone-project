@@ -44,8 +44,6 @@ RSpec.describe GamesController, type: :controller do
       game2.clues << clue2
       game3.clues << clue3
 
-      puts game1.clues.first.id
-      
       get :index, available: true
       expect(assigns :games).to eq([game1])
       expect(assigns :user).to eq(@creator)

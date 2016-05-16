@@ -1,10 +1,9 @@
 class GcmWorker
   include Sidekiq::Worker
 
-  def perform(data)
-    gcm = GCM.new("AIzaSyCy5I7Km3amHc5DZNI64B6nS0r9N_x5I8")
-    # gcm = GCM.new("AIzaSyAheFGnDy9PS8ExpshroE8docHIdOd-WgM")
+  def perform(game_id)
+    gcm = GCM.new("AIzaSyDgEwlJvSX1Jew18m90u4K-ijIoXQHmkss")
     options = {data: data[:message]}
-    response = gcm.send(data[:tokens], options)
+    gcm.send(data[:tokens], options)
   end
 end

@@ -94,6 +94,18 @@ RSpec.describe UsersController, type: :controller do
       post :register_token, token: 'token'
       expect(response).to have_http_status(:ok)
     end
+
+    it 'should not register the same token twice' do
+      @user.save
+      request.headers['Authorization'] = "Token token=#{@user.auth_token}"
+      post :register_token, token: 'token'
+      expect(Token.count).to eq(1)
+
+      expect(response).to have_http_status(:ok)
+      post :register_token, token: 'token'
+      request.headers['Authorization'] = "Token token=#{@user.auth_token}"
+      expect(Token.count).to eq(1)
+    end
   end
   
   describe "GET games" do
