@@ -55,7 +55,7 @@ class GamesController < ApplicationController
 
   def score_board
     if @game.active?
-      render json: @game.score_board
+      render json: @game.score_board.to_json(include: :user)
     else
       render json: {errors: {error: 'This game is not active'}}, status: :bad_request unless @game.active
     end
