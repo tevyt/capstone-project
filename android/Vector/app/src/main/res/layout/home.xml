@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sand"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="9">
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="My Games"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:padding="7dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/dark_grass_green"-->
+            <!--android:textSize="30sp"/>-->
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/home_user_games"
+            android:dividerHeight="2dp"
+            android:divider="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>
