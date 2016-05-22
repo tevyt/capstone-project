@@ -110,7 +110,7 @@ public class DetailsActivity extends AppCompatActivity {
                 end_time.setText(get_date(end_string));
                 long time = new Date().getTime();
                 String sstatus = getstatus(start_string, end_string);
-                status.setText(sstatus);
+
                 Date d = new Date();
                 String ending = "";
                 if(sstatus.equals("NOT STARTED")){
@@ -270,17 +270,19 @@ public class DetailsActivity extends AppCompatActivity {
         if(start.after(now)){
             status.setTextColor(getResources().getColor(R.color.red));
                 play.setVisibility(View.GONE);
+            status.setText("NOT STARTED");
             return "NOT STARTED";
         } else {
             if(end.after(now)){
                 status.setTextColor(getResources().getColor(R.color.grassgreen));
-
+                status.setText("RUNNING");
                 return "RUNNING";
             } else {
                 status.setTextColor(getResources().getColor(R.color.sand));
                 play.setVisibility(View.GONE);
                 button.setVisibility(View.GONE);
                 play.setEnabled(false);
+                status.setText("ENDED");
                 return "ENDED";
             }
         }
