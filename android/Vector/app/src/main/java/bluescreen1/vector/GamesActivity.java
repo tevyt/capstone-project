@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -32,9 +33,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -299,7 +302,7 @@ public class GamesActivity extends AppCompatActivity {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String GAME = "game";
-
+        TextView status;
         public GameDetailsFragment() {
         }
 
@@ -319,7 +322,7 @@ public class GamesActivity extends AppCompatActivity {
             TextView title = (TextView) rootView.findViewById(R.id.game_details_title);
             TextView start_time = (TextView) rootView.findViewById(R.id.game_details_start_time);
             TextView end_time = (TextView) rootView.findViewById(R.id.game_details_end_time);
-            TextView status = (TextView) rootView.findViewById(R.id.game_details_status);
+            status = (TextView) rootView.findViewById(R.id.game_details_status);
             Button button = (Button) rootView.findViewById(R.id.game_details_button);
             button.setVisibility(View.GONE);
             final TextView countdown = (TextView) rootView.findViewById(R.id.game_details_countdown);
@@ -329,25 +332,124 @@ public class GamesActivity extends AppCompatActivity {
             try {
                 JSONObject jgame = new JSONObject(sgame);
                 title.setText(jgame.getString("name"));
-                String start_string = jgame.getString("start_time");
-                String[] start_datetime = start_string.split("T");
-                String start_text = start_datetime[0] + " " +
-                        start_datetime[1].substring(0, start_datetime[1].length()-5);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
-                Date start = dateFormat.parse(start_text);
-                start_time.setText(start.toString());
-                String end_string = jgame.getString("end_time");
-                String[] end_datetime = start_string.split("T");
-                String end_text = start_datetime[0] + " @ " +
-                        end_datetime[1].substring(0, end_datetime[1].length()-5);
-                end_time.setText(end_text);
+                final String start_string = jgame.getString("start_time");
+                final String end_string = jgame.getString("end_time");
+                String sstatus = getstatus(start_string, end_string);
+                start_time.setText(get_date(start_string));
+                end_time.setText(get_date(end_string));
+                Date d = new Date();
+                String ending = "";
                 desc.setText(jgame.getString("description"));
-            } catch (JSONException | ParseException e) {
+                if(sstatus.equals("NOT STARTED")){
+                    d = get_date_d(start_string);
+
+                    ending = " till start";
+                } else if (sstatus.equals("RUNNING")){
+                    d = get_date_d(end_string);
+                    ending = " till end";
+                } else {
+                    countdown.setVisibility(View.GONE);
+                }
+                long time = (new Date()).getTime();
+                long dif = d.getTime() - time;
+                final String finalEnding = ending;
+                new CountDownTimer(dif, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long secs = millisUntilFinished/1000;
+                        long mins = secs/60;
+                        secs %= 60;
+                        long hours = mins/60;
+                        mins %= 60;
+                        countdown.setText(String.format(" %02d : %02d : %02d ", hours, mins, secs)+ finalEnding);
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        countdown.setText("Its Time");
+                        getstatus(start_string, end_string);
+                    }
+                }.start();
+
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
             return rootView;
+        }
+
+        protected String getstatus(String start_string, String end_string){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+            String[] start_datetime = start_string.split("T");
+            String[] end_datetime = end_string.split("T");
+            String start_text = start_datetime[0] + " " + start_datetime[1].substring(0, start_datetime[1].length()-5);
+            String end_text = end_datetime[0] + " " + end_datetime[1].substring(0, end_datetime[1].length()-5);
+            //            Date start = dateFormat.parse(start_text);
+            Date start= get_date_d(start_string);
+            Date end = get_date_d(end_string);
+//            Date end = dateFormat.parse(end_text);
+            Date now = new Date();
+            if(start.after(now)){
+                status.setTextColor(getResources().getColor(R.color.red));
+
+                status.setText("NOT STARTED");
+                return "NOT STARTED";
+            } else {
+                if(end.after(now)){
+                    status.setTextColor(getResources().getColor(R.color.grassgreen));
+                    status.setText("RUNNING");
+                    return "RUNNING";
+                } else {
+                    status.setTextColor(getResources().getColor(R.color.sand));
+                    status.setText("ENDED");
+                    return "ENDED";
+                }
+            }
+//        return "ACTIVE";
+
+        }
+
+        protected String get_date(String date){
+
+
+            String[] date_datetime = date.split("T");
+            String date_text = date_datetime[0] + " " +
+                    date_datetime[1].substring(0, date_datetime[1].length()-5);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+            Date start = new Date();
+            try {
+                start = dateFormat.parse(date_text);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            DateFormat df = DateFormat.getDateTimeInstance();
+
+            calendar.setTime(start);
+            calendar.add(Calendar.HOUR_OF_DAY, -5);
+            return df.format(calendar.getTime());
+        }
+
+        protected Date get_date_d(String date){
+
+            String[] date_datetime = date.split("T");
+            String date_text = date_datetime[0] + " " +
+                    date_datetime[1].substring(0, date_datetime[1].length()-5);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+            Date start = new Date();
+            try {
+                start = dateFormat.parse(date_text);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            DateFormat df = DateFormat.getDateTimeInstance();
+
+            calendar.setTime(start);
+            calendar.add(Calendar.HOUR_OF_DAY, -5);
+            return calendar.getTime();
         }
     }
 }
